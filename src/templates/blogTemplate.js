@@ -87,12 +87,19 @@ const ArticleArea = styled.div`
         display: block;
         box-shadow: 0px 10px 20px 0px rgba(92, 105, 127, 0.1);
       }
+      .cube {
+        &:first-child {
+          padding-left: 0 !important;
+        }
+        &:nth-of-type(3n) {
+          padding-right: 0 !important;
+        }
+      }
       .recommend-article {
         height: 150px;
         background: rgba(255, 255, 255, 1);
         box-shadow: 0px 15px 60px 0px rgba(92, 105, 127, 0.1);
         border-top: 2px solid #2e49d5;
-        margin: 0 20px 20px 20px;
         padding: 20px;
         .recommend-article-title {
           color: #323854;
@@ -466,29 +473,31 @@ export default class Template extends React.PureComponent {
                 <div className="title">推荐文章</div>
                 <div className="recommend-articles">
                   {window.innerWidth > 992 ? (
-                    <Row gutter={16}>
-                      {recommendArray.map(item => {
-                        const {
-                          node: {
-                            id,
-                            frontmatter: { title, path, brief },
-                          },
-                        } = item
-                        return (
-                          <Col span={8}>
-                            <Link to={path} key={path}>
-                              <div className="recommend-article" key={id}>
-                                <div className="recommend-article-title">
-                                  {title}
+                    <Row gutter={24} style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
+                      <div>
+                        {recommendArray.map(item => {
+                          const {
+                            node: {
+                              id,
+                              frontmatter: { title, path, brief },
+                            },
+                          } = item
+                          return (
+                            <Col span={8} className="cube">
+                              <Link to={path} key={path}>
+                                <div className="recommend-article" key={id}>
+                                  <div className="recommend-article-title">
+                                    {title}
+                                  </div>
+                                  <div className="recommend-article-brief">
+                                    {brief}
+                                  </div>
                                 </div>
-                                <div className="recommend-article-brief">
-                                  {brief}
-                                </div>
-                              </div>
-                            </Link>
-                          </Col>
-                        )
-                      })}
+                              </Link>
+                            </Col>
+                          )
+                        })}
+                      </div>
                     </Row>
                   ) : (
                     <div>

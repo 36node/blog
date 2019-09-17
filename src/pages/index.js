@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { graphql, Link, navigate } from "gatsby"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import HotTopic from '../components/topic'
+import HotTopic from "../components/topic"
 // import Search from "../components/Search"
 
 const { Search } = Input
@@ -21,7 +21,8 @@ const ArticleList = styled.div`
     display: block;
     width: 100%;
   }
-  width: 86%;
+  width: 100%;
+  padding: 0 9%;
   margin: 0 auto;
   padding-top: 4px;
   .articles {
@@ -31,7 +32,7 @@ const ArticleList = styled.div`
     }
     .article {
       cursor: pointer;
-      padding: 40px;
+      padding: 2%;
       @media screen and (max-width: 992px) {
         border-bottom: 2px solid #dfe0e9;
       }
@@ -124,8 +125,8 @@ const MobileTopicSearch = styled(Search)`
   height: 48px;
   margin-bottom: 40px;
   @media screen and (max-width: 992px) {
-    width: 80% !important;
-    margin: 32px;
+    width: 96% !important;
+    margin: 32px 0;
   }
   .ant-input {
     background-color: #f8faff;
@@ -140,7 +141,7 @@ const MobileTopicSearch = styled(Search)`
 
 const TopicSearch = styled(Search)`
   height: 48px;
-  margin: 40px 0;
+  margin: 20px 0;
   @media screen and (max-width: 992px) {
     display: none;
   }
