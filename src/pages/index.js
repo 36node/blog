@@ -140,7 +140,7 @@ const MobileTopicSearch = styled(Search)`
 
 const TopicSearch = styled(Search)`
   height: 48px;
-  margin-bottom: 40px;
+  margin: 40px 0;
   @media screen and (max-width: 992px) {
     display: none;
   }

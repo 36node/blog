@@ -141,7 +141,7 @@ class BlogHeader extends React.PureComponent {
           <NavLink to="/cases">案例</NavLink>
         </WrapMenu.Item>
         <WrapMenu.Item key="/opinion">
-          <NavLink to="/opinion">观点</NavLink>
+          <Link to="/">观点</Link>
         </WrapMenu.Item>
         <WrapMenu.Item key="/about">
           <NavLink to="/about">关于</NavLink>

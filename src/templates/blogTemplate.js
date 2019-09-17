@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import Layout from "../components/layout"
 import { graphql, Link, navigate } from "gatsby"
-import { Icon, Input, Progress } from "antd"
+import { Icon, Input, Progress, Row, Col } from "antd"
 import { difference } from "lodash"
 import HotTopic from "../components/topic"
 // import Search from "../components/Search"
@@ -80,14 +80,15 @@ const ArticleArea = styled.div`
       color: rgba(50, 56, 84, 1);
     }
     .recommend-articles {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      display: flex;
+      // display: grid;
+      // grid-template-columns: 1fr 1fr 1fr;
       @media screen and (max-width: 992px) {
         display: block;
         box-shadow: 0px 10px 20px 0px rgba(92, 105, 127, 0.1);
       }
       .recommend-article {
-        height: 120px;
+        height: 150px;
         background: rgba(255, 255, 255, 1);
         box-shadow: 0px 15px 60px 0px rgba(92, 105, 127, 0.1);
         border-top: 2px solid #2e49d5;
@@ -95,12 +96,17 @@ const ArticleArea = styled.div`
         padding: 20px;
         .recommend-article-title {
           color: #323854;
-          font-size: 16px;
-          font-weight: 700px;
+          font-size: 20px;
+          font-weight: 700;
           margin-bottom: 10px;
         }
         .recommend-article-brief {
           color: black;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          display: -webkit-box;
         }
         @media screen and (max-width: 992px) {
           display: block;
@@ -351,7 +357,7 @@ export default class Template extends React.PureComponent {
   }
   render() {
     const { data } = this.props
-    console.log(data);
+    console.log(data)
     const {
       markdownRemark,
       allMarkdownRemark: { edges },
@@ -413,58 +419,101 @@ export default class Template extends React.PureComponent {
               )}
             </div>
             <div className="operation">
-              {currentIndex === 0 ? (
-                <div>这是第一篇</div>
-              ) : (
-                <div className="prev-article">
-                  <span className="arrow">
-                    <Icon type="caret-left" />
-                    <Link to={edges[currentIndex - 1].node.frontmatter.path}>
-                      上一篇
-                    </Link>
-                  </span>
-                  <div className="article-title">
-                    {edges[currentIndex - 1].node.frontmatter.title}
-                  </div>
+              <div className="prev-article">
+                <span className="arrow">
+                  <Icon type="caret-left" />
+                  <Link
+                    to={
+                      currentIndex === 0
+                        ? ""
+                        : edges[currentIndex - 1].node.frontmatter.path
+                    }
+                    disabled={currentIndex === 0}
+                  >
+                    上一篇
+                  </Link>
+                </span>
+                <div className="article-title">
+                  {currentIndex === 0
+                    ? "这是第一篇"
+                    : edges[currentIndex - 1].node.frontmatter.title}
                 </div>
-              )}
-              {currentIndex < edges.length - 1 ? (
-                <div className="next-article">
-                  <span className="arrow">
-                    {window.innerWidth < 992 && <Icon type="caret-right" />}
-                    <Link to={edges[currentIndex + 1].node.frontmatter.path}>
-                      下一篇
-                    </Link>
-                    {window.innerWidth > 992 && <Icon type="caret-right" />}
-                  </span>
-                  <div className="article-title">
-                    {edges[currentIndex + 1].node.frontmatter.title}
-                  </div>
+              </div>
+              <div className="next-article">
+                <span className="arrow">
+                  {window.innerWidth < 992 && <Icon type="caret-right" />}
+                  <Link
+                    to={
+                      currentIndex < edges.length - 1
+                        ? edges[currentIndex + 1].node.frontmatter.path
+                        : ""
+                    }
+                    disabled={currentIndex >= edges.length - 1}
+                  >
+                    下一篇
+                  </Link>
+                  {window.innerWidth > 992 && <Icon type="caret-right" />}
+                </span>
+                <div className="article-title">
+                  {currentIndex < edges.length - 1
+                    ? edges[currentIndex + 1].node.frontmatter.title
+                    : "这是最后一篇"}
                 </div>
-              ) : (
-                <div>这是最后一篇</div>
-              )}
+              </div>
             </div>
             {recommendArray.length !== 0 && (
               <div className="recommend-area">
                 <div className="title">推荐文章</div>
                 <div className="recommend-articles">
-                  {recommendArray.map(item => {
-                    const {
-                      node: {
-                        id,
-                        frontmatter: { title, path, brief },
-                      },
-                    } = item
-                    return (
-                      <Link to={path} key={path}>
-                        <div className="recommend-article" key={id}>
-                          <div className="recommend-article-title">{title}</div>
-                          <div className="recommend-article-brief">{brief}</div>
-                        </div>
-                      </Link>
-                    )
-                  })}
+                  {window.innerWidth > 992 ? (
+                    <Row gutter={16}>
+                      {recommendArray.map(item => {
+                        const {
+                          node: {
+                            id,
+                            frontmatter: { title, path, brief },
+                          },
+                        } = item
+                        return (
+                          <Col span={8}>
+                            <Link to={path} key={path}>
+                              <div className="recommend-article" key={id}>
+                                <div className="recommend-article-title">
+                                  {title}
+                                </div>
+                                <div className="recommend-article-brief">
+                                  {brief}
+                                </div>
+                              </div>
+                            </Link>
+                          </Col>
+                        )
+                      })}
+                    </Row>
+                  ) : (
+                    <div>
+                      {recommendArray.map(item => {
+                        const {
+                          node: {
+                            id,
+                            frontmatter: { title, path, brief },
+                          },
+                        } = item
+                        return (
+                          <Link to={path} key={path}>
+                            <div className="recommend-article" key={id}>
+                              <div className="recommend-article-title">
+                                {title}
+                              </div>
+                              <div className="recommend-article-brief">
+                                {brief}
+                              </div>
+                            </div>
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  )}
                 </div>
               </div>
             )}
