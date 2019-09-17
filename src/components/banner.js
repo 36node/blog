@@ -8,7 +8,7 @@ const BannerWrapper = styled.div`
   background-color: #2e49d5;
   display: grid;
   grid-template-columns: 1fr 440px;
-  padding: 0 300px;
+  padding: 0 10%;
   @media screen and (max-width: 992px) {
     height: auto;
     display: block;

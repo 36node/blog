@@ -4,12 +4,10 @@ import styled from "styled-components"
 import { graphql, Link, navigate } from "gatsby"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import kebabCase from "lodash/kebabCase"
+import HotTopic from '../components/topic'
 // import Search from "../components/Search"
 
-const { Search } = Input;
-
-
+const { Search } = Input
 
 const ArticleArea = styled.div`
   background-color: #f8faff;
@@ -23,11 +21,11 @@ const ArticleList = styled.div`
     display: block;
     width: 100%;
   }
-  width: 80%;
+  width: 86%;
   margin: 0 auto;
   padding-top: 4px;
   .articles {
-    margin-right: 180px;
+    margin-right: 100px;
     @media screen and (max-width: 992px) {
       margin-right: 0;
     }
@@ -121,40 +119,6 @@ const ArticleList = styled.div`
       }
     }
   }
-  .hot-topics {
-    width: 320px;
-    padding-top: 40px;
-    @media screen and (max-width: 992px) {
-      width: 80%;
-      margin: 0 auto;
-    }
-    .title {
-      margin-top: 48px;
-      font-size: 28px;
-      font-family: PingFangSC;
-      font-weight: 600;
-      color: rgba(50, 56, 84, 1);
-      margin-bottom: 16px;
-    }
-    .topic-list {
-      .topic {
-        height: 48px;
-        background-color: white;
-        margin-bottom: 8px;
-        border-left: 2px solid #dfe0e9;
-        font-size: 14px;
-        font-family: PingFangSC;
-        font-weight: 400;
-        color: rgba(46, 73, 213, 1);
-        padding-left: 16px;
-        line-height: 48px;
-        cursor: pointer;
-        &:hover {
-          border-left: 2px solid #667be7;
-        }
-      }
-    }
-  }
 `
 const MobileTopicSearch = styled(Search)`
   height: 48px;
@@ -191,11 +155,11 @@ const TopicSearch = styled(Search)`
   }
 `
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 5
 const searchIndices = [
   { name: `Pages`, title: `Pages`, hitComp: `PageHit` },
   { name: `Posts`, title: `Blog Posts`, hitComp: `PostHit` },
-];
+]
 
 export default class IndexPage extends React.PureComponent {
   state = {
@@ -217,16 +181,16 @@ export default class IndexPage extends React.PureComponent {
       this.setState({ page: this.state.page + 1 })
     }
   }
-  search = (value) => {
-    navigate('/search',{state: {value}});
-  };
+  search = value => {
+    navigate("/search", { state: { value } })
+  }
   render() {
     const {
       data: {
-        allMarkdownRemark: { edges, group },
+        allMarkdownRemark: { edges },
       },
     } = this.props
-    const { page, pageCount } = this.state;
+    const { page, pageCount } = this.state
     return (
       <Layout>
         <SEO title="Home" />
@@ -242,29 +206,37 @@ export default class IndexPage extends React.PureComponent {
             )}
             <div className="articles">
               {edges.slice(0, (page + 1) * PAGE_SIZE).map(({ node }) => (
-                <div className="article" key={node.id}>
-                  <div className="article-title">{node.frontmatter.title}</div>
-                  <div className="article-tag">
-                    {node.frontmatter.tags.map(item => (
-                      <span className="tag" key={item}>
-                        {item}
+                <Link to={node.frontmatter.path} key={node.frontmatter.path}>
+                  <div className="article" key={node.id}>
+                    <div className="article-title">
+                      {node.frontmatter.title}
+                    </div>
+                    <div className="article-tag">
+                      {node.frontmatter.tags.map(item => (
+                        <span className="tag" key={item}>
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="brief-info">{node.frontmatter.brief}</div>
+                    <div>
+                      <span className="author-info">
+                        {node.frontmatter.author}
                       </span>
-                    ))}
+                      <span className="time-info">{node.frontmatter.date}</span>
+                      <span className="article-view">
+                        查看全文
+                        <Icon type="caret-right" />
+                      </span>
+                    </div>
                   </div>
-                  <div className="brief-info">{node.frontmatter.brief}</div>
-                  <div>
-                    <span className="author-info">
-                      {node.frontmatter.author}
-                    </span>
-                    <span className="time-info">{node.frontmatter.date}</span>
-                    <span className="article-view">
-                      <Link to={node.frontmatter.path}>查看全文</Link>
-                      <Icon type="caret-right" />
-                    </span>
-                  </div>
-                </div>
+                </Link>
               ))}
-              <div className="more-article" onClick={this.pagination} style={{display: page < pageCount ? 'block' : 'none'}}>
+              <div
+                className="more-article"
+                onClick={this.pagination}
+                style={{ display: page < pageCount ? "block" : "none" }}
+              >
                 更多文章
               </div>
             </div>
@@ -277,21 +249,7 @@ export default class IndexPage extends React.PureComponent {
                   onSearch={this.search}
                 />
               )}
-              <div className="title">所有分类</div>
-              <div className="topic-list">
-                {group.map(tag => (
-                  <div className="topic" key={tag.fieldValue}>
-                    <Link
-                      style={{
-                        textDecoration: `none`,
-                      }}
-                      to={`/tags/${kebabCase(tag.fieldValue)}/`}
-                    >
-                      {tag.fieldValue} ({tag.totalCount})
-                    </Link>
-                  </div>
-                ))}
-              </div>
+              <HotTopic />
             </div>
           </ArticleList>
         </ArticleArea>

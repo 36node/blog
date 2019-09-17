@@ -1,13 +1,22 @@
 import React from "react"
 import styled from "styled-components"
 import Layout from "../components/layout"
-import kebabCase from "lodash/kebabCase"
 import { graphql, Link, navigate } from "gatsby"
-import { Icon, Input } from "antd"
+import { Icon, Input, Progress } from "antd"
 import { difference } from "lodash"
+import HotTopic from "../components/topic"
 // import Search from "../components/Search"
 
 const { Search } = Input
+
+const BlogProgress = styled(Progress)`
+  position: fixed;
+  top: -8px;
+  z-index: 100;
+  .ant-progress-line {
+    font-size: 12px;
+  }
+`
 
 const ArticleArea = styled.div`
   background-color: #f8faff;
@@ -84,6 +93,15 @@ const ArticleArea = styled.div`
         border-top: 2px solid #2e49d5;
         margin: 0 20px 20px 20px;
         padding: 20px;
+        .recommend-article-title {
+          color: #323854;
+          font-size: 16px;
+          font-weight: 700px;
+          margin-bottom: 10px;
+        }
+        .recommend-article-brief {
+          color: black;
+        }
         @media screen and (max-width: 992px) {
           display: block;
           margin: 0 0px 20px 0px;
@@ -311,154 +329,155 @@ const searchIndices = [
   { name: `Posts`, title: `Blog Posts`, hitComp: `PostHit` },
 ]
 
-export default function Template({
-  data, // this prop will be injected by the GraphQL query below.
-}) {
-  const {
-    markdownRemark,
-    allMarkdownRemark: { edges, group },
-  } = data // data.markdownRemark holds our post data
-  const { frontmatter, html } = markdownRemark
-  const currentPath = frontmatter.path
-  const currentIndex = edges.findIndex(
-    item => item.node.frontmatter.path === currentPath
-  )
-  const otherEdges = edges.filter((item, index) => index !== currentIndex)
-  const recommendArray = findRelativeBlog(otherEdges, frontmatter.tags)
-  console.log(recommendArray)
-  return (
-    <Layout>
-      {window.innerWidth < 992 && (
-        <MobileTopicSearch
-          placeholder="搜索文章"
-          indices={searchIndices}
-          onSearch={search}
-        />
-      )}
-      <ArticleArea>
-        <ArticleList>
-          <div className="article-detail">
-            <div className="articles">
-              <div className="title">{frontmatter.title}</div>
-              {frontmatter.tags && (
-                <div className="article-tag">
-                  {createTagArray(frontmatter.tags)}
+export default class Template extends React.PureComponent {
+  state = {
+    percent: 0,
+  }
+  componentDidMount = () => {
+    window.addEventListener("scroll", this.progress)
+  }
+  componentWillUnmount = () => {
+    window.removeEventListener("scroll", this.progress)
+  }
+  progress = () => {
+    const scrollTop = document.documentElement.scrollTop
+    const scrollHeight = document.documentElement.scrollHeight
+    const clientHeight = document.documentElement.clientHeight
+    if (scrollTop + clientHeight === scrollHeight) {
+      this.setState({ percent: 100 })
+    } else {
+      this.setState({ percent: (scrollTop / scrollHeight) * 100 })
+    }
+  }
+  render() {
+    const { data } = this.props
+    console.log(data);
+    const {
+      markdownRemark,
+      allMarkdownRemark: { edges },
+    } = data // data.markdownRemark holds our post data
+    const { frontmatter, html } = markdownRemark
+    const currentPath = frontmatter.path
+    const currentIndex = edges.findIndex(
+      item => item.node.frontmatter.path === currentPath
+    )
+    const otherEdges = edges.filter((item, index) => index !== currentIndex)
+    const recommendArray = findRelativeBlog(otherEdges, frontmatter.tags)
+    return (
+      <Layout>
+        {this.state.percent !== 0 && (
+          <BlogProgress
+            percent={this.state.percent}
+            showInfo={false}
+            strokeColor="#2E49D5"
+          />
+        )}
+        {window.innerWidth < 992 && (
+          <MobileTopicSearch
+            placeholder="搜索文章"
+            indices={searchIndices}
+            onSearch={search}
+          />
+        )}
+        <ArticleArea>
+          <ArticleList>
+            <div className="article-detail">
+              <div className="articles">
+                <div className="title">{frontmatter.title}</div>
+                {frontmatter.tags && (
+                  <div className="article-tag">
+                    {createTagArray(frontmatter.tags)}
+                  </div>
+                )}
+                <div className="author-time-area">
+                  <span className="author">{frontmatter.author}</span>
+                  <span className="date">{frontmatter.date}</span>
+                </div>
+                <div className="blog-container">
+                  <div
+                    className="blog-content"
+                    dangerouslySetInnerHTML={{ __html: html }}
+                  />
+                </div>
+              </div>
+              {window.innerWidth > 992 && (
+                <div className="hot-topics">
+                  <TopicSearch
+                    className="search"
+                    placeholder="搜索文章"
+                    indices={searchIndices}
+                    onSearch={search}
+                  />
+                  <HotTopic />
                 </div>
               )}
-              <div className="author-time-area">
-                <span className="author">{frontmatter.author}</span>
-                <span className="date">{frontmatter.date}</span>
-              </div>
-              <div className="blog-container">
-                <div
-                  className="blog-content"
-                  dangerouslySetInnerHTML={{ __html: html }}
-                />
-              </div>
             </div>
-            {window.innerWidth > 992 && (
-              <div className="hot-topics">
-                <TopicSearch
-                  className="search"
-                  placeholder="搜索文章"
-                  indices={searchIndices}
-                  onSearch={search}
-                />
-                <div className="title">所有分类</div>
-                <div className="topic-list">
-                  {group.map(tag => (
-                    <div className="topic" key={tag.fieldValue}>
-                      <Link
-                        style={{
-                          textDecoration: `none`,
-                        }}
-                        to={`/tags/${kebabCase(tag.fieldValue)}/`}
-                      >
-                        {tag.fieldValue} ({tag.totalCount})
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="operation">
-            {currentIndex === 0 ? (
-              <div>这是第一篇</div>
-            ) : (
-              <div className="prev-article">
-                <span className="arrow">
-                  <Icon type="caret-left" />
-                  <Link to={edges[currentIndex - 1].node.frontmatter.path}>
-                    上一篇
-                  </Link>
-                </span>
-                <div className="article-title">
-                  {edges[currentIndex - 1].node.frontmatter.title}
-                </div>
-              </div>
-            )}
-            {currentIndex < edges.length ? (
-              <div className="next-article">
-                <span className="arrow">
-                  {window.innerWidth < 992 && <Icon type="caret-right" />}
-                  <Link to={edges[currentIndex + 1].node.frontmatter.path}>
-                    下一篇
-                  </Link>
-                  {window.innerWidth > 992 && <Icon type="caret-right" />}
-                </span>
-                <div className="article-title">
-                  {edges[currentIndex + 1].node.frontmatter.title}
-                </div>
-              </div>
-            ) : (
-              <div>这是最后一篇</div>
-            )}
-          </div>
-          {recommendArray.length !== 0 && (
-            <div className="recommend-area">
-              <div className="title">推荐文章</div>
-              <div className="recommend-articles">
-                {recommendArray.map(item => {
-                  const {
-                    node: {
-                      id,
-                      frontmatter: { title, path, brief },
-                    },
-                  } = item
-                  return (
-                    <div className="recommend-article" key={id}>
-                      <Link to={path}>{title}</Link>
-                      <div>{brief}</div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          )}
-          {window.innerWidth < 992 && (
-            <MobileHotTopic>
-              <div className="title">所有分类</div>
-              <div className="topic-list">
-                {group.map(tag => (
-                  <div className="topic" key={tag.fieldValue}>
-                    <Link
-                      style={{
-                        textDecoration: `none`,
-                      }}
-                      to={`/tags/${kebabCase(tag.fieldValue)}/`}
-                    >
-                      {tag.fieldValue} ({tag.totalCount})
+            <div className="operation">
+              {currentIndex === 0 ? (
+                <div>这是第一篇</div>
+              ) : (
+                <div className="prev-article">
+                  <span className="arrow">
+                    <Icon type="caret-left" />
+                    <Link to={edges[currentIndex - 1].node.frontmatter.path}>
+                      上一篇
                     </Link>
+                  </span>
+                  <div className="article-title">
+                    {edges[currentIndex - 1].node.frontmatter.title}
                   </div>
-                ))}
+                </div>
+              )}
+              {currentIndex < edges.length - 1 ? (
+                <div className="next-article">
+                  <span className="arrow">
+                    {window.innerWidth < 992 && <Icon type="caret-right" />}
+                    <Link to={edges[currentIndex + 1].node.frontmatter.path}>
+                      下一篇
+                    </Link>
+                    {window.innerWidth > 992 && <Icon type="caret-right" />}
+                  </span>
+                  <div className="article-title">
+                    {edges[currentIndex + 1].node.frontmatter.title}
+                  </div>
+                </div>
+              ) : (
+                <div>这是最后一篇</div>
+              )}
+            </div>
+            {recommendArray.length !== 0 && (
+              <div className="recommend-area">
+                <div className="title">推荐文章</div>
+                <div className="recommend-articles">
+                  {recommendArray.map(item => {
+                    const {
+                      node: {
+                        id,
+                        frontmatter: { title, path, brief },
+                      },
+                    } = item
+                    return (
+                      <Link to={path} key={path}>
+                        <div className="recommend-article" key={id}>
+                          <div className="recommend-article-title">{title}</div>
+                          <div className="recommend-article-brief">{brief}</div>
+                        </div>
+                      </Link>
+                    )
+                  })}
+                </div>
               </div>
-            </MobileHotTopic>
-          )}
-        </ArticleList>
-      </ArticleArea>
-    </Layout>
-  )
+            )}
+            {window.innerWidth < 992 && (
+              <MobileHotTopic>
+                <HotTopic />
+              </MobileHotTopic>
+            )}
+          </ArticleList>
+        </ArticleArea>
+      </Layout>
+    )
+  }
 }
 
 export const pageQuery = graphql`
@@ -476,10 +495,6 @@ export const pageQuery = graphql`
     }
     allMarkdownRemark {
       totalCount
-      group(field: frontmatter___tags) {
-        fieldValue
-        totalCount
-      }
       edges {
         node {
           id

@@ -6,7 +6,7 @@ import { Icon, Input } from "antd"
 import styled from "styled-components"
 import { graphql, Link, navigate } from "gatsby"
 import Layout from "../components/layout"
-import kebabCase from "lodash/kebabCase"
+import HotTopic from "../components/topic"
 // import Search from "../components/Search"
 
 const { Search } = Input
@@ -212,15 +212,15 @@ const TopicSearch = styled(Search)`
 export default class SearchPage extends React.Component {
   search = value => {
     if (value === "") {
-      navigate("/");
+      navigate("/")
     } else {
       navigate("/search", { state: { value } })
     }
-  };
+  }
   render() {
     const {
       data: {
-        allMarkdownRemark: { edges, group },
+        allMarkdownRemark: { edges },
       },
       location: {
         state: { value },
@@ -284,25 +284,7 @@ export default class SearchPage extends React.Component {
                   onSearch={this.search}
                 />
               )}
-              {window.innerWidth > 992 && (
-                <div>
-                  <div className="title">所有分类</div>
-                  <div className="topic-list">
-                    {group.map(tag => (
-                      <div className="topic" key={tag.fieldValue}>
-                        <Link
-                          style={{
-                            textDecoration: `none`,
-                          }}
-                          to={`/tags/${kebabCase(tag.fieldValue)}/`}
-                        >
-                          {tag.fieldValue} ({tag.totalCount})
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {window.innerWidth > 992 && <HotTopic />}
             </div>
           </ArticleList>
         </ArticleArea>
