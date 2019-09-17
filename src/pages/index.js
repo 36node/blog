@@ -9,10 +9,6 @@ import HotTopic from "../components/topic"
 
 const { Search } = Input
 
-const ArticleArea = styled.div`
-  background-color: #f8faff;
-`
-
 const ArticleList = styled.div`
   padding-bottom: 60px;
   display: grid;
@@ -24,7 +20,7 @@ const ArticleList = styled.div`
   width: 100%;
   padding: 0 9%;
   margin: 0 auto;
-  padding-top: 4px;
+  padding-top: 40px;
   .articles {
     margin-right: 100px;
     @media screen and (max-width: 992px) {
@@ -141,7 +137,6 @@ const MobileTopicSearch = styled(Search)`
 
 const TopicSearch = styled(Search)`
   height: 48px;
-  margin: 20px 0;
   @media screen and (max-width: 992px) {
     display: none;
   }
@@ -195,65 +190,63 @@ export default class IndexPage extends React.PureComponent {
     return (
       <Layout>
         <SEO title="Home" />
-        <ArticleArea>
-          <ArticleList>
-            {window.innerWidth < 992 && (
-              <MobileTopicSearch
+        <ArticleList>
+          {window.innerWidth < 992 && (
+            <MobileTopicSearch
+              className="search"
+              placeholder="搜索文章"
+              indices={searchIndices}
+              onSearch={this.search}
+            />
+          )}
+          <div className="articles">
+            {edges.slice(0, (page + 1) * PAGE_SIZE).map(({ node }) => (
+              <Link to={node.frontmatter.path} key={node.frontmatter.path}>
+                <div className="article" key={node.id}>
+                  <div className="article-title">
+                    {node.frontmatter.title}
+                  </div>
+                  <div className="article-tag">
+                    {node.frontmatter.tags.map(item => (
+                      <span className="tag" key={item}>
+                          {item}
+                        </span>
+                    ))}
+                  </div>
+                  <div className="brief-info">{node.frontmatter.brief}</div>
+                  <div>
+                      <span className="author-info">
+                        {node.frontmatter.author}
+                      </span>
+                    <span className="time-info">{node.frontmatter.date}</span>
+                    <span className="article-view">
+                        查看全文
+                        <Icon type="caret-right" />
+                      </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+            <div
+              className="more-article"
+              onClick={this.pagination}
+              style={{ display: page < pageCount ? "block" : "none" }}
+            >
+              更多文章
+            </div>
+          </div>
+          <div className="hot-topics">
+            {window.innerWidth > 992 && (
+              <TopicSearch
                 className="search"
                 placeholder="搜索文章"
                 indices={searchIndices}
                 onSearch={this.search}
               />
             )}
-            <div className="articles">
-              {edges.slice(0, (page + 1) * PAGE_SIZE).map(({ node }) => (
-                <Link to={node.frontmatter.path} key={node.frontmatter.path}>
-                  <div className="article" key={node.id}>
-                    <div className="article-title">
-                      {node.frontmatter.title}
-                    </div>
-                    <div className="article-tag">
-                      {node.frontmatter.tags.map(item => (
-                        <span className="tag" key={item}>
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="brief-info">{node.frontmatter.brief}</div>
-                    <div>
-                      <span className="author-info">
-                        {node.frontmatter.author}
-                      </span>
-                      <span className="time-info">{node.frontmatter.date}</span>
-                      <span className="article-view">
-                        查看全文
-                        <Icon type="caret-right" />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-              <div
-                className="more-article"
-                onClick={this.pagination}
-                style={{ display: page < pageCount ? "block" : "none" }}
-              >
-                更多文章
-              </div>
-            </div>
-            <div className="hot-topics">
-              {window.innerWidth > 992 && (
-                <TopicSearch
-                  className="search"
-                  placeholder="搜索文章"
-                  indices={searchIndices}
-                  onSearch={this.search}
-                />
-              )}
-              <HotTopic />
-            </div>
-          </ArticleList>
-        </ArticleArea>
+            <HotTopic />
+          </div>
+        </ArticleList>
       </Layout>
     )
   }

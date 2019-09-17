@@ -134,21 +134,20 @@ const ArticleList = styled.div`
   padding-bottom: 60px;
   width: 80%;
   margin: 0 auto;
-  padding-top: 4px;
   .article-detail {
     display: grid;
     grid-template-columns: 1fr 320px;
+    padding-top: 40px;
     @media screen and (max-width: 992px) {
       display: block;
     }
     .articles {
       margin-right: 180px;
-      padding-top: 40px;
       @media screen and (max-width: 992px) {
         margin-right: 0px;
       }
       .title {
-        font-size: 32px;
+        font-size: 28px;
         font-family: PingFangSC;
         font-weight: 600;
         color: rgba(50, 56, 84, 1);
@@ -197,7 +196,6 @@ const ArticleList = styled.div`
     }
     .hot-topics {
       width: 320px;
-      padding-top: 40px;
       @media screen and (max-width: 992px) {
         width: auto;
       }
@@ -473,7 +471,10 @@ export default class Template extends React.PureComponent {
                 <div className="title">推荐文章</div>
                 <div className="recommend-articles">
                   {window.innerWidth > 992 ? (
-                    <Row gutter={24} style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
+                    <Row
+                      gutter={24}
+                      style={{ width: "100%", marginRight: 0, marginLeft: 0 }}
+                    >
                       <div>
                         {recommendArray.map(item => {
                           const {
