@@ -110,7 +110,8 @@ const ArticleList = styled.div`
       font-weight: 500;
       color: rgba(102, 123, 231, 1);
       cursor: pointer;
-      margin-left: 40px;
+      margin-left: 10px;
+      margin-bottom: 50px;
       @media screen and (max-width: 992px) {
         width: 80%;
       }
@@ -203,26 +204,24 @@ export default class IndexPage extends React.PureComponent {
             {edges.slice(0, (page + 1) * PAGE_SIZE).map(({ node }) => (
               <Link to={node.frontmatter.path} key={node.frontmatter.path}>
                 <div className="article" key={node.id}>
-                  <div className="article-title">
-                    {node.frontmatter.title}
-                  </div>
+                  <div className="article-title">{node.frontmatter.title}</div>
                   <div className="article-tag">
                     {node.frontmatter.tags.map(item => (
                       <span className="tag" key={item}>
-                          {item}
-                        </span>
+                        {item}
+                      </span>
                     ))}
                   </div>
                   <div className="brief-info">{node.frontmatter.brief}</div>
                   <div>
-                      <span className="author-info">
-                        {node.frontmatter.author}
-                      </span>
+                    <span className="author-info">
+                      {node.frontmatter.author}
+                    </span>
                     <span className="time-info">{node.frontmatter.date}</span>
                     <span className="article-view">
-                        查看全文
-                        <Icon type="caret-right" />
-                      </span>
+                      查看全文
+                      <Icon type="caret-right" />
+                    </span>
                   </div>
                 </div>
               </Link>
