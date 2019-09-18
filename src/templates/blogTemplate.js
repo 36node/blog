@@ -132,7 +132,7 @@ const ArticleArea = styled.div`
 
 const ArticleList = styled.div`
   padding-bottom: 60px;
-  padding: 40px 60px;
+  padding: 40px 18%;
   margin: 0 auto;
   .article-detail {
     display: grid;
@@ -195,7 +195,6 @@ const ArticleList = styled.div`
     }
     .hot-topics {
       width: 320px;
-      padding-top: 2%;
       @media screen and (max-width: 992px) {
         width: auto;
       }

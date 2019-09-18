@@ -18,10 +18,12 @@ const ArticleList = styled.div`
     width: 100%;
   }
   width: 100%;
-  padding: 0 20px;
+  padding: 0 18%;
   margin: 0 auto;
   .articles {
-    margin-right: 100px;
+    margin-right: -40px;
+    position: relative;
+    right: 40px;
     @media screen and (max-width: 992px) {
       margin-right: 0;
     }
@@ -109,7 +111,7 @@ const ArticleList = styled.div`
       font-weight: 500;
       color: rgba(102, 123, 231, 1);
       cursor: pointer;
-      margin-left: 10px;
+      margin-left: 40px;
       margin-bottom: 50px;
       margin-top: 50px;
       @media screen and (max-width: 992px) {

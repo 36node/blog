@@ -7,16 +7,16 @@ const BannerWrapper = styled.div`
   height: 320px;
   background-color: #2e49d5;
 
-  padding: 0 60px;
+  padding: 0 18%;
   .banner-content {
     display: grid;
     grid-template-columns: 1fr 440px;
-  }
-  @media screen and (max-width: 992px) {
-    height: auto;
-    display: block;
-    padding: 38px 20px 0 20px;
-    text-align: center;
+    @media screen and (max-width: 992px) {
+      height: auto;
+      display: block;
+      padding: 38px 20px 0 20px;
+      text-align: center;
+    }
   }
   .text-area {
     padding-top: 80px;
