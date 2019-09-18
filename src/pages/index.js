@@ -18,9 +18,8 @@ const ArticleList = styled.div`
     width: 100%;
   }
   width: 100%;
-  padding: 0 9%;
+  padding: 0 20px;
   margin: 0 auto;
-  padding-top: 40px;
   .articles {
     margin-right: 100px;
     @media screen and (max-width: 992px) {
@@ -28,7 +27,7 @@ const ArticleList = styled.div`
     }
     .article {
       cursor: pointer;
-      padding: 2%;
+      padding: 40px;
       @media screen and (max-width: 992px) {
         border-bottom: 2px solid #dfe0e9;
       }
@@ -112,6 +111,7 @@ const ArticleList = styled.div`
       cursor: pointer;
       margin-left: 10px;
       margin-bottom: 50px;
+      margin-top: 50px;
       @media screen and (max-width: 992px) {
         width: 80%;
       }
@@ -138,6 +138,7 @@ const MobileTopicSearch = styled(Search)`
 
 const TopicSearch = styled(Search)`
   height: 48px;
+  margin-top: 40px;
   @media screen and (max-width: 992px) {
     display: none;
   }

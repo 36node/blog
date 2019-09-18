@@ -132,17 +132,16 @@ const ArticleArea = styled.div`
 
 const ArticleList = styled.div`
   padding-bottom: 60px;
-  width: 80%;
+  padding: 40px 60px;
   margin: 0 auto;
   .article-detail {
     display: grid;
     grid-template-columns: 1fr 320px;
-    padding-top: 40px;
     @media screen and (max-width: 992px) {
       display: block;
     }
     .articles {
-      margin-right: 180px;
+      margin-right: 200px;
       @media screen and (max-width: 992px) {
         margin-right: 0px;
       }
@@ -196,6 +195,7 @@ const ArticleList = styled.div`
     }
     .hot-topics {
       width: 320px;
+      padding-top: 2%;
       @media screen and (max-width: 992px) {
         width: auto;
       }
@@ -231,7 +231,6 @@ const ArticleList = styled.div`
 
 const TopicSearch = styled(Search)`
   height: 48px;
-  margin-bottom: 40px;
   @media screen and (max-width: 992px) {
     display: none;
   }

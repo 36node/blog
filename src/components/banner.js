@@ -6,9 +6,12 @@ const BannerWrapper = styled.div`
   width: 100%;
   height: 320px;
   background-color: #2e49d5;
-  display: grid;
-  grid-template-columns: 1fr 440px;
-  padding: 0 10%;
+
+  padding: 0 60px;
+  .banner-content {
+    display: grid;
+    grid-template-columns: 1fr 440px;
+  }
   @media screen and (max-width: 992px) {
     height: auto;
     display: block;
@@ -57,13 +60,15 @@ export default class Banner extends React.PureComponent {
   render() {
     return (
       <BannerWrapper>
-        <div className="text-area">
-          <div className="title">从思考，到创造</div>
-          <div className="subtitle">
-            我们在观察和理解这个世界的同时，更坚持不断持续探索与创新，将我们的理念付诸于实践，将我们的梦想变为现实。
+        <div className="banner-content">
+          <div className="text-area">
+            <div className="title">从思考，到创造</div>
+            <div className="subtitle">
+              我们在观察和理解这个世界的同时，更坚持不断持续探索与创新，将我们的理念付诸于实践，将我们的梦想变为现实。
+            </div>
           </div>
+          <Image />
         </div>
-        <Image />
       </BannerWrapper>
     )
   }
