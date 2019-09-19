@@ -11,10 +11,13 @@ const { Search } = Input
 
 const BlogProgress = styled(Progress)`
   position: fixed;
-  top: -8px;
+  top: -11px;
   z-index: 100;
   .ant-progress-line {
     font-size: 12px;
+  }
+  .ant-progress-bg {
+    height: 3px !important;
   }
 `
 
@@ -132,7 +135,7 @@ const ArticleArea = styled.div`
 
 const ArticleList = styled.div`
   padding-bottom: 60px;
-  padding: 40px 18%;
+  padding: 40px 10%;
   margin: 0 auto;
   .article-detail {
     display: grid;

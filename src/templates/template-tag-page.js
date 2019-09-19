@@ -7,10 +7,6 @@ import HotTopic from "../components/topic"
 
 const { Search } = Input
 
-const ArticleArea = styled.div`
-  background-color: #f8faff;
-`
-
 const ArticleList = styled.div`
   padding-bottom: 60px;
   display: grid;
@@ -19,19 +15,23 @@ const ArticleList = styled.div`
     display: block;
     width: 100%;
   }
-  padding: 0 18%;
+  width: 100%;
+  padding: 0 10%;
   margin: 0 auto;
   .articles {
     position: relative;
     right: 40px;
+    max-width: 800px;
     @media screen and (max-width: 992px) {
       margin-right: 0;
+      right: 0px;
     }
     .article {
       cursor: pointer;
       padding: 40px;
       @media screen and (max-width: 992px) {
         border-bottom: 2px solid #dfe0e9;
+        padding: 0px;
       }
       &:hover {
         background: rgba(255, 255, 255, 1);
@@ -76,6 +76,8 @@ const ArticleList = styled.div`
         font-weight: 400;
         color: rgba(107, 109, 127, 1);
         margin-bottom: 24px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .author-info {
         font-size: 14px;
@@ -112,25 +114,21 @@ const ArticleList = styled.div`
       color: rgba(102, 123, 231, 1);
       cursor: pointer;
       margin-left: 40px;
+      margin-bottom: 50px;
+      margin-top: 50px;
       @media screen and (max-width: 992px) {
-        width: 80%;
+        width: 100%;
+        margin-left: 0;
       }
-    }
-  }
-  .hot-topics {
-    width: 320px;
-    padding-top: 40px;
-    @media screen and (max-width: 992px) {
-      width: 80%;
-      margin: 0 auto;
     }
   }
 `
 const MobileTopicSearch = styled(Search)`
   height: 48px;
+  margin-bottom: 40px;
   @media screen and (max-width: 992px) {
-    width: 80% !important;
-    margin: 32px;
+    width: 96% !important;
+    margin: 32px 0;
   }
   .ant-input {
     background-color: #f8faff;
@@ -145,6 +143,7 @@ const MobileTopicSearch = styled(Search)`
 
 const TopicSearch = styled(Search)`
   height: 48px;
+  margin-top: 40px;
   @media screen and (max-width: 992px) {
     display: none;
   }
@@ -169,56 +168,54 @@ class TagRoute extends React.Component {
 
     return (
       <Layout location={this.props.location}>
-        <ArticleArea>
-          <ArticleList>
-            {window.innerWidth < 992 && (
-              <MobileTopicSearch
+        <ArticleList>
+          {window.innerWidth < 992 && (
+            <MobileTopicSearch
+              className="search"
+              placeholder="搜索文章"
+              onSearch={this.search}
+            />
+          )}
+          <div className="articles">
+            {edges.map(({ node }) => (
+              <Link to={node.frontmatter.path} key={node.frontmatter.path}>
+                <div className="article" key={node.id}>
+                  <div className="article-title">
+                    {node.frontmatter.title}
+                  </div>
+                  <div className="article-tag">
+                    {node.frontmatter.tags.map(item => (
+                      <span className="tag" key={item}>
+                          {item}
+                        </span>
+                    ))}
+                  </div>
+                  <div className="brief-info">{node.frontmatter.brief}</div>
+                  <div>
+                      <span className="author-info">
+                        {node.frontmatter.author}
+                      </span>
+                    <span className="time-info">{node.frontmatter.date}</span>
+                    <span className="article-view">
+                        查看全文
+                        <Icon type="caret-right" />
+                      </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="hot-topics">
+            {window.innerWidth > 992 && (
+              <TopicSearch
                 className="search"
                 placeholder="搜索文章"
                 onSearch={this.search}
               />
             )}
-            <div className="articles">
-              {edges.map(({ node }) => (
-                <Link to={node.frontmatter.path} key={node.frontmatter.path}>
-                  <div className="article" key={node.id}>
-                    <div className="article-title">
-                      {node.frontmatter.title}
-                    </div>
-                    <div className="article-tag">
-                      {node.frontmatter.tags.map(item => (
-                        <span className="tag" key={item}>
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="brief-info">{node.frontmatter.brief}</div>
-                    <div>
-                      <span className="author-info">
-                        {node.frontmatter.author}
-                      </span>
-                      <span className="time-info">{node.frontmatter.date}</span>
-                      <span className="article-view">
-                        查看全文
-                        <Icon type="caret-right" />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-            <div className="hot-topics">
-              {window.innerWidth > 992 && (
-                <TopicSearch
-                  className="search"
-                  placeholder="搜索文章"
-                  onSearch={this.search}
-                />
-              )}
-              <HotTopic />
-            </div>
-          </ArticleList>
-        </ArticleArea>
+            <HotTopic />
+          </div>
+        </ArticleList>
       </Layout>
     )
   }

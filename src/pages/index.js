@@ -18,20 +18,22 @@ const ArticleList = styled.div`
     width: 100%;
   }
   width: 100%;
-  padding: 0 18%;
+  padding: 0 10%;
   margin: 0 auto;
   .articles {
-    margin-right: -40px;
     position: relative;
     right: 40px;
+    max-width: 800px;
     @media screen and (max-width: 992px) {
       margin-right: 0;
+      right: 0px;
     }
     .article {
       cursor: pointer;
       padding: 40px;
       @media screen and (max-width: 992px) {
         border-bottom: 2px solid #dfe0e9;
+        padding: 0px;
       }
       &:hover {
         background: rgba(255, 255, 255, 1);
@@ -76,6 +78,8 @@ const ArticleList = styled.div`
         font-weight: 400;
         color: rgba(107, 109, 127, 1);
         margin-bottom: 24px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .author-info {
         font-size: 14px;
@@ -115,7 +119,8 @@ const ArticleList = styled.div`
       margin-bottom: 50px;
       margin-top: 50px;
       @media screen and (max-width: 992px) {
-        width: 80%;
+        width: 100%;
+        margin-left: 0;
       }
     }
   }

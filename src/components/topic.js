@@ -7,11 +7,11 @@ import kebabCase from "lodash/kebabCase"
 import styled from "styled-components"
 
 const HotTopic = styled.div`
-  width: 320px;
   padding-top: 40px;
   @media screen and (max-width: 992px) {
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
+    padding-top: 0px;
   }
   .title {
     margin-top: 48px;

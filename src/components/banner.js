@@ -4,13 +4,12 @@ import Image from "./image"
 
 const BannerWrapper = styled.div`
   width: 100%;
-  height: 320px;
   background-color: #2e49d5;
-
-  padding: 0 18%;
+  padding: 0 10%;
   .banner-content {
     display: grid;
     grid-template-columns: 1fr 440px;
+    height: 320px;
     @media screen and (max-width: 992px) {
       height: auto;
       display: block;
@@ -25,12 +24,10 @@ const BannerWrapper = styled.div`
       margin-right: 0px;
     }
     .title {
-      height: 62px;
       font-size: 44px;
       font-family: PingFangSC;
       font-weight: 600;
       color: rgba(255, 255, 255, 1);
-      line-height: 62px;
       letter-spacing: 2px;
       margin-bottom: 32px;
       @media screen and (max-width: 992px) {
@@ -41,12 +38,10 @@ const BannerWrapper = styled.div`
       }
     }
     .subtitle {
-      height: 64px;
       font-size: 18px;
       font-family: PingFangSC;
       font-weight: 400;
       color: rgba(255, 255, 255, 1);
-      line-height: 32px;
       letter-spacing: 1px;
       @media screen and (max-width: 992px) {
         font-size: 12px;
