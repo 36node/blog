@@ -64,7 +64,7 @@ const FooterMain = styled.div`
     }
 
     .ant-menu-item {
-      padding: 0 15px;
+      padding: 0 12px;
     }
   }
 `
