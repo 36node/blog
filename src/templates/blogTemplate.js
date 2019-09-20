@@ -51,7 +51,7 @@ const ArticleArea = styled.div`
     .prev-article {
       @media screen and (max-width: 992px) {
         display: flex;
-        padding: 27px 0;
+        padding: 25px 0;
         border-bottom: 2px solid #dfe0e9;
       }
     }
@@ -76,6 +76,9 @@ const ArticleArea = styled.div`
   }
   .recommend-area {
     margin-top: 80px;
+    @media screen and (max-width: 992px) {
+      margin-top: 40px;
+    }
     .title {
       font-size: 28px;
       font-family: PingFangSC;
@@ -104,11 +107,17 @@ const ArticleArea = styled.div`
         box-shadow: 0px 15px 60px 0px rgba(92, 105, 127, 0.1);
         border-top: 2px solid #2e49d5;
         padding: 20px;
+        @media screen and (max-width: 992px) {
+          padding: 23px 15px;
+          border-top: none;
+          border-left: 2px solid #2e49d5;
+          height: auto;
+        }
         .recommend-article-title {
           color: #323854;
           font-size: 20px;
           font-weight: 700;
-          margin-bottom: 10px;
+          margin-bottom: 0px;
         }
         .recommend-article-brief {
           color: black;
@@ -137,6 +146,9 @@ const ArticleList = styled.div`
   padding-bottom: 60px;
   padding: 40px 10%;
   margin: 0 auto;
+  @media screen and (max-width: 992px) {
+    padding: 35px 20px 0 20px;
+  }
   .article-detail {
     display: grid;
     grid-template-columns: 1fr 320px;
@@ -159,9 +171,15 @@ const ArticleList = styled.div`
         padding-bottom: 50px;
         border-bottom: 2px solid #f2f4fa;
         margin-bottom: 50px;
+        @media screen and (max-width: 992px) {
+          margin-bottom: 0px;
+        }
       }
       .article-tag {
         padding-bottom: 32px;
+        @media screen and (max-width: 992px) {
+          padding-bottom: 16px;
+        }
         .tag {
           display: inline-block;
           padding: 5px 12px;
@@ -178,7 +196,7 @@ const ArticleList = styled.div`
       .author-time-area {
         border-top: 2px solid #f2f4fa;
         border-bottom: 2px solid #f2f4fa;
-        padding: 15px 0;
+        padding: 12px 0;
         display: flex;
         justify-content: space-between;
         margin-bottom: 32px;
@@ -249,12 +267,8 @@ const TopicSearch = styled(Search)`
 const MobileTopicSearch = styled(Search)`
   height: 48px;
   margin-bottom: 40px;
-  display: none;
   @media screen and (max-width: 992px) {
-    display: block;
-    margin: 0 auto;
-    width: 80%;
-    margin-top: 32px;
+    margin-bottom: 35px;
   }
   .ant-input {
     background-color: #f8faff;
@@ -272,6 +286,7 @@ const MobileHotTopic = styled.div`
   padding-top: 40px;
   @media screen and (max-width: 992px) {
     width: auto;
+    padding-top: 0px;
   }
   .title {
     margin-top: 48px;
@@ -384,15 +399,15 @@ export default class Template extends React.PureComponent {
             strokeColor="#2E49D5"
           />
         )}
-        {window.innerWidth < 992 && (
-          <MobileTopicSearch
-            placeholder="搜索文章"
-            indices={searchIndices}
-            onSearch={search}
-          />
-        )}
         <ArticleArea>
           <ArticleList>
+            {window.innerWidth < 992 && (
+              <MobileTopicSearch
+                placeholder="搜索文章"
+                indices={searchIndices}
+                onSearch={search}
+              />
+            )}
             <div className="article-detail">
               <div className="articles">
                 <div className="title">{frontmatter.title}</div>
@@ -481,7 +496,7 @@ export default class Template extends React.PureComponent {
                           const {
                             node: {
                               id,
-                              frontmatter: { title, path, brief },
+                              frontmatter: { title, path },
                             },
                           } = item
                           return (
@@ -490,9 +505,6 @@ export default class Template extends React.PureComponent {
                                 <div className="recommend-article" key={id}>
                                   <div className="recommend-article-title">
                                     {title}
-                                  </div>
-                                  <div className="recommend-article-brief">
-                                    {brief}
                                   </div>
                                 </div>
                               </Link>
@@ -507,7 +519,7 @@ export default class Template extends React.PureComponent {
                         const {
                           node: {
                             id,
-                            frontmatter: { title, path, brief },
+                            frontmatter: { title, path },
                           },
                         } = item
                         return (
@@ -515,9 +527,6 @@ export default class Template extends React.PureComponent {
                             <div className="recommend-article" key={id}>
                               <div className="recommend-article-title">
                                 {title}
-                              </div>
-                              <div className="recommend-article-brief">
-                                {brief}
                               </div>
                             </div>
                           </Link>

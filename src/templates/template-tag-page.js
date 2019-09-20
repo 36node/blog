@@ -1,5 +1,5 @@
 import React from "react"
-import { Link, graphql } from "gatsby"
+import { Link, graphql, navigate } from "gatsby"
 import styled from "styled-components"
 import Layout from "../components/layout"
 import { Icon, Input } from "antd"
@@ -14,6 +14,7 @@ const ArticleList = styled.div`
   @media screen and (max-width: 992px) {
     display: block;
     width: 100%;
+    padding: 0 20px;
   }
   width: 100%;
   padding: 0 10%;
@@ -31,16 +32,18 @@ const ArticleList = styled.div`
       padding: 40px;
       @media screen and (max-width: 992px) {
         border-bottom: 2px solid #dfe0e9;
-        padding: 0px;
+        padding: 35px 0 32px 0;
       }
-      &:hover {
-        background: rgba(255, 255, 255, 1);
-        box-shadow: 0px 15px 60px 0px rgba(92, 105, 127, 0.1);
-        .article-title {
-          color: #2e49d5;
-        }
-        .article-view {
-          display: inline-block;
+      @media screen and (min-width: 992px) {
+        &:hover {
+          background: rgba(255, 255, 255, 1);
+          box-shadow: 0px 15px 60px 0px rgba(92, 105, 127, 0.1);
+          .article-title {
+            color: #2e49d5;
+          }
+          .article-view {
+            display: inline-block;
+          }
         }
       }
       .article-title {
@@ -99,6 +102,9 @@ const ArticleList = styled.div`
         color: rgba(46, 73, 213, 1);
         float: right;
         display: none;
+        @media screen and (max-width: 992px) {
+          display: block;
+        }
       }
     }
     .more-article {
@@ -127,8 +133,8 @@ const MobileTopicSearch = styled(Search)`
   height: 48px;
   margin-bottom: 40px;
   @media screen and (max-width: 992px) {
-    width: 96% !important;
     margin: 32px 0;
+    margin-bottom: 0;
   }
   .ant-input {
     background-color: #f8faff;
@@ -159,6 +165,9 @@ const TopicSearch = styled(Search)`
 `
 
 class TagRoute extends React.Component {
+  search = value => {
+    navigate("/search", { state: { value } })
+  }
   render() {
     const {
       data: {
@@ -180,26 +189,24 @@ class TagRoute extends React.Component {
             {edges.map(({ node }) => (
               <Link to={node.frontmatter.path} key={node.frontmatter.path}>
                 <div className="article" key={node.id}>
-                  <div className="article-title">
-                    {node.frontmatter.title}
-                  </div>
+                  <div className="article-title">{node.frontmatter.title}</div>
                   <div className="article-tag">
                     {node.frontmatter.tags.map(item => (
                       <span className="tag" key={item}>
-                          {item}
-                        </span>
+                        {item}
+                      </span>
                     ))}
                   </div>
                   <div className="brief-info">{node.frontmatter.brief}</div>
                   <div>
-                      <span className="author-info">
-                        {node.frontmatter.author}
-                      </span>
+                    <span className="author-info">
+                      {node.frontmatter.author}
+                    </span>
                     <span className="time-info">{node.frontmatter.date}</span>
                     <span className="article-view">
-                        查看全文
-                        <Icon type="caret-right" />
-                      </span>
+                      查看全文
+                      <Icon type="caret-right" />
+                    </span>
                   </div>
                 </div>
               </Link>

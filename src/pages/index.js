@@ -16,6 +16,7 @@ const ArticleList = styled.div`
   @media screen and (max-width: 992px) {
     display: block;
     width: 100%;
+    padding: 0 20px;
   }
   width: 100%;
   padding: 0 10%;
@@ -33,16 +34,18 @@ const ArticleList = styled.div`
       padding: 40px;
       @media screen and (max-width: 992px) {
         border-bottom: 2px solid #dfe0e9;
-        padding: 0px;
+        padding: 35px 0 32px 0;
       }
-      &:hover {
-        background: rgba(255, 255, 255, 1);
-        box-shadow: 0px 15px 60px 0px rgba(92, 105, 127, 0.1);
-        .article-title {
-          color: #2e49d5;
-        }
-        .article-view {
-          display: inline-block;
+      @media screen and (min-width: 992px) {
+        &:hover {
+          background: rgba(255, 255, 255, 1);
+          box-shadow: 0px 15px 60px 0px rgba(92, 105, 127, 0.1);
+          .article-title {
+            color: #2e49d5;
+          }
+          .article-view {
+            display: inline-block;
+          }
         }
       }
       .article-title {
@@ -78,6 +81,9 @@ const ArticleList = styled.div`
         font-weight: 400;
         color: rgba(107, 109, 127, 1);
         margin-bottom: 24px;
+        @media screen and (max-width: 992px) {
+          margin-bottom: 16px;
+        }
         overflow: hidden;
         text-overflow: ellipsis;
       }
@@ -101,6 +107,9 @@ const ArticleList = styled.div`
         color: rgba(46, 73, 213, 1);
         float: right;
         display: none;
+        @media screen and (max-width: 992px) {
+          display: block;
+        }
       }
     }
     .more-article {
@@ -129,8 +138,8 @@ const MobileTopicSearch = styled(Search)`
   height: 48px;
   margin-bottom: 40px;
   @media screen and (max-width: 992px) {
-    width: 96% !important;
     margin: 32px 0;
+    margin-bottom: 0;
   }
   .ant-input {
     background-color: #f8faff;

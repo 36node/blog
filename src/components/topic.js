@@ -11,10 +11,11 @@ const HotTopic = styled.div`
   @media screen and (max-width: 992px) {
     width: 100%;
     margin: 0 auto;
+    margin-bottom: 60px;
     padding-top: 0px;
   }
   .title {
-    margin-top: 48px;
+    margin-top: 60px;
     font-size: 28px;
     font-family: PingFangSC;
     font-weight: 600;

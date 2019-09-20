@@ -16,10 +16,6 @@ const searchIndices = [
   { name: `Posts`, title: `Blog Posts`, hitComp: `PostHit` },
 ]
 
-const ArticleArea = styled.div`
-  background-color: #f8faff;
-`
-
 const ArticleList = styled.div`
   padding-bottom: 60px;
   display: grid;
@@ -27,42 +23,39 @@ const ArticleList = styled.div`
   @media screen and (max-width: 992px) {
     display: block;
     width: 100%;
+    padding: 0 20px;
   }
-  width: 80%;
+  width: 100%;
+  padding: 0 10%;
   margin: 0 auto;
-  padding-top: 4px;
   .articles {
-    margin-right: 180px;
+    position: relative;
+    right: 40px;
+    max-width: 800px;
     @media screen and (max-width: 992px) {
       margin-right: 0;
+      right: 0px;
     }
-    .searchResult {
-      height: 70px;
-      font-size: 14px;
-      font-family: PingFangSC;
-      font-weight: 400;
-      color: rgba(158, 166, 180, 1);
-      line-height: 110px;
-      border-bottom: 1px solid #dfe0e9;
-      letter-spacing: 5px;
-      .search-count {
-        color: black;
-      }
+    .empty-search{
+      margin: 30px 0;
     }
     .article {
       cursor: pointer;
       padding: 40px;
       @media screen and (max-width: 992px) {
         border-bottom: 2px solid #dfe0e9;
+        padding: 35px 0 32px 0;
       }
-      &:hover {
-        background: rgba(255, 255, 255, 1);
-        box-shadow: 0px 15px 60px 0px rgba(92, 105, 127, 0.1);
-        .article-title {
-          color: #2e49d5;
-        }
-        .article-view {
-          display: inline-block;
+      @media screen and (min-width: 992px) {
+        &:hover {
+          background: rgba(255, 255, 255, 1);
+          box-shadow: 0px 15px 60px 0px rgba(92, 105, 127, 0.1);
+          .article-title {
+            color: #2e49d5;
+          }
+          .article-view {
+            display: inline-block;
+          }
         }
       }
       .article-title {
@@ -98,6 +91,8 @@ const ArticleList = styled.div`
         font-weight: 400;
         color: rgba(107, 109, 127, 1);
         margin-bottom: 24px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .author-info {
         font-size: 14px;
@@ -119,6 +114,9 @@ const ArticleList = styled.div`
         color: rgba(46, 73, 213, 1);
         float: right;
         display: none;
+        @media screen and (max-width: 992px) {
+          display: block;
+        }
       }
     }
     .more-article {
@@ -134,42 +132,11 @@ const ArticleList = styled.div`
       color: rgba(102, 123, 231, 1);
       cursor: pointer;
       margin-left: 40px;
+      margin-bottom: 50px;
+      margin-top: 50px;
       @media screen and (max-width: 992px) {
-        width: 80%;
-      }
-    }
-  }
-  .hot-topics {
-    width: 320px;
-    padding-top: 40px;
-    @media screen and (max-width: 992px) {
-      width: 80%;
-      margin: 0 auto;
-    }
-    .title {
-      margin-top: 48px;
-      font-size: 28px;
-      font-family: PingFangSC;
-      font-weight: 600;
-      color: rgba(50, 56, 84, 1);
-      margin-bottom: 16px;
-    }
-    .topic-list {
-      .topic {
-        height: 48px;
-        background-color: white;
-        margin-bottom: 8px;
-        border-left: 2px solid #dfe0e9;
-        font-size: 14px;
-        font-family: PingFangSC;
-        font-weight: 400;
-        color: rgba(46, 73, 213, 1);
-        padding-left: 16px;
-        line-height: 48px;
-        cursor: pointer;
-        &:hover {
-          border-left: 2px solid #667be7;
-        }
+        width: 100%;
+        margin-left: 0;
       }
     }
   }
@@ -177,6 +144,10 @@ const ArticleList = styled.div`
 const MobileTopicSearch = styled(Search)`
   height: 48px;
   margin-bottom: 40px;
+  @media screen and (max-width: 992px) {
+    margin: 32px 0;
+    margin-bottom: 0;
+  }
   .ant-input {
     background-color: #f8faff;
     &:hover {
@@ -186,15 +157,11 @@ const MobileTopicSearch = styled(Search)`
       border-color: #2e49d5 !important;
     }
   }
-  @media screen and (max-width: 992px) {
-    width: 80%;
-    margin: 32px;
-  }
 `
 
 const TopicSearch = styled(Search)`
   height: 48px;
-  margin-bottom: 40px;
+  margin-top: 40px;
   @media screen and (max-width: 992px) {
     display: none;
   }
@@ -232,25 +199,26 @@ export default class SearchPage extends React.Component {
 
     return (
       <Layout>
-        <ArticleArea>
-          <ArticleList>
-            {window.innerWidth < 992 && (
-              <MobileTopicSearch
-                className="search"
-                placeholder="搜索文章"
-                defaultValue={value}
-                indices={searchIndices}
-                onSearch={this.search}
-              />
+        <ArticleList>
+          {window.innerWidth < 992 && (
+            <MobileTopicSearch
+              className="search"
+              placeholder="搜索文章"
+              defaultValue={value}
+              indices={searchIndices}
+              onSearch={this.search}
+            />
+          )}
+          <div className="articles">
+            {window.innerWidth > 992 && (
+              <div className="searchResult">
+                共<span className="search-count">{filterEdges.length}</span>
+                篇相关文章
+              </div>
             )}
-            <div className="articles">
-              {window.innerWidth > 992 && (
-                <div className="searchResult">
-                  共<span className="search-count">{filterEdges.length}</span>
-                  篇相关文章
-                </div>
-              )}
-              {filterEdges.map(({ node }) => (
+            {filterEdges.length === 0 && <div className="empty-search">没有找到和"{value}"有关的文章</div>}
+            {filterEdges.map(({ node }) => (
+              <Link to={node.frontmatter.path} key={node.frontmatter.path}>
                 <div className="article" key={node.id}>
                   <div className="article-title">{node.frontmatter.title}</div>
                   <div className="article-tag">
@@ -267,27 +235,27 @@ export default class SearchPage extends React.Component {
                     </span>
                     <span className="time-info">{node.frontmatter.date}</span>
                     <span className="article-view">
-                      <Link to={node.frontmatter.path}>查看全文</Link>
+                      查看全文
                       <Icon type="caret-right" />
                     </span>
                   </div>
                 </div>
-              ))}
-            </div>
-            <div className="hot-topics">
-              {window.innerWidth > 992 && (
-                <TopicSearch
-                  className="search"
-                  placeholder="搜索文章"
-                  indices={searchIndices}
-                  defaultValue={value}
-                  onSearch={this.search}
-                />
-              )}
-              {window.innerWidth > 992 && <HotTopic />}
-            </div>
-          </ArticleList>
-        </ArticleArea>
+              </Link>
+            ))}
+          </div>
+          <div className="hot-topics">
+            {window.innerWidth > 992 && (
+              <TopicSearch
+                className="search"
+                placeholder="搜索文章"
+                indices={searchIndices}
+                defaultValue={value}
+                onSearch={this.search}
+              />
+            )}
+            {window.innerWidth > 992 && <HotTopic />}
+          </div>
+        </ArticleList>
       </Layout>
     )
   }

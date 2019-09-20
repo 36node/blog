@@ -26,7 +26,7 @@ const Footer = styled.div`
   @media screen and (max-width: 768px) {
     padding-top: 30px;
     padding-bottom: 20px;
-
+    overflow-x: hidden;
     .ant-divider {
       margin: 20px 0;
     }
@@ -64,7 +64,7 @@ const FooterMain = styled.div`
     }
 
     .ant-menu-item {
-      padding: 0 12px;
+      padding: 0 15px;
     }
   }
 `
@@ -100,6 +100,22 @@ const WrapMenu = styled(Menu)`
   }
 `
 
+const FooterNav = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  width: 100%;
+  text-align: center;
+  margin-top: 35px;
+  margin-bottom: 20px;
+  .footer-nav-item {
+    font-size: 14px;
+    font-family: PingFangSC;
+    font-weight: 400;
+    color: rgba(158, 166, 180, 1);
+    cursor: pointer;
+  }
+`
+
 export default class AdventureFooter extends React.PureComponent {
   render() {
     return (
@@ -114,26 +130,49 @@ export default class AdventureFooter extends React.PureComponent {
                 </div>
               </NavLink>
             </Logo>
-            <WrapMenu mode="horizontal">
-              <WrapMenu.Item>
-                <NavLink to="/">首页</NavLink>
-              </WrapMenu.Item>
-              <WrapMenu.Item>
-                <NavLink to="/service">服务</NavLink>
-              </WrapMenu.Item>
-              <WrapMenu.Item>
-                <NavLink to="/cases">案例</NavLink>
-              </WrapMenu.Item>
-              <WrapMenu.Item>
-                <NavLink to="/opinion">观点</NavLink>
-              </WrapMenu.Item>
-              <WrapMenu.Item>
-                <NavLink to="/about">关于</NavLink>
-              </WrapMenu.Item>
-              <WrapMenu.Item>
-                <NavLink to="/join">加入</NavLink>
-              </WrapMenu.Item>
-            </WrapMenu>
+            {window.innerWidth > 992 ? (
+              <WrapMenu mode="horizontal">
+                <WrapMenu.Item>
+                  <NavLink to="/">首页</NavLink>
+                </WrapMenu.Item>
+                <WrapMenu.Item>
+                  <NavLink to="/service">服务</NavLink>
+                </WrapMenu.Item>
+                <WrapMenu.Item>
+                  <NavLink to="/cases">案例</NavLink>
+                </WrapMenu.Item>
+                <WrapMenu.Item>
+                  <NavLink to="/opinion">观点</NavLink>
+                </WrapMenu.Item>
+                <WrapMenu.Item>
+                  <NavLink to="/about">关于</NavLink>
+                </WrapMenu.Item>
+                <WrapMenu.Item>
+                  <NavLink to="/join">加入</NavLink>
+                </WrapMenu.Item>
+              </WrapMenu>
+            ) : (
+              <FooterNav>
+                <NavLink to="/">
+                  <div className="footer-nav-item">首页</div>
+                </NavLink>
+                <NavLink to="/">
+                  <div className="footer-nav-item">服务</div>
+                </NavLink>
+                <NavLink to="/">
+                  <div className="footer-nav-item">案例</div>
+                </NavLink>
+                <NavLink to="/">
+                  <div className="footer-nav-item">观点</div>
+                </NavLink>
+                <NavLink to="/">
+                  <div className="footer-nav-item">关于</div>
+                </NavLink>
+                <NavLink to="/">
+                  <div className="footer-nav-item">加入</div>
+                </NavLink>
+              </FooterNav>
+            )}
           </FooterMain>
           <Divider />
           <p>
