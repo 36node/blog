@@ -7,6 +7,7 @@ import styled from "styled-components"
 import { graphql, Link, navigate } from "gatsby"
 import Layout from "../components/layout"
 import HotTopic from "../components/topic"
+import RecommendArticle from "../components/recommendArticle"
 // import Search from "../components/Search"
 
 const { Search } = Input
@@ -18,26 +19,52 @@ const searchIndices = [
 
 const ArticleList = styled.div`
   padding-bottom: 60px;
-  display: grid;
-  grid-template-columns: 1fr 320px;
+
+  .articles-zone {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    @media screen and (max-width: 992px) {
+      display: block;
+    }
+  }
+  .hot-topics{
+    padding-top: 40px;
+  }
   @media screen and (max-width: 992px) {
     display: block;
     width: 100%;
     padding: 0 20px;
+    padding-bottom: 110px;
   }
   width: 100%;
   padding: 0 10%;
   margin: 0 auto;
+  padding-bottom: 110px;
   .articles {
     position: relative;
     right: 40px;
     max-width: 800px;
+    .searchResult {
+      height: 48px;
+      margin-top: 40px;
+      border-bottom: 1px solid #dfe0e9;
+      margin-left: 40px;
+      line-height: 60px;
+      color: #9ea6b4;
+      letter-spacing: 3px;
+      .search-count {
+        color: #2e49d5;
+      }
+    }
     @media screen and (max-width: 992px) {
       margin-right: 0;
       right: 0px;
     }
-    .empty-search{
-      margin: 30px 0;
+    .empty-search {
+      margin: 30px 0 30px 40px;
+      @media screen and (max-width: 992px) {
+        margin: 30px 0;
+      }
     }
     .article {
       cursor: pointer;
@@ -144,26 +171,10 @@ const ArticleList = styled.div`
 const MobileTopicSearch = styled(Search)`
   height: 48px;
   margin-bottom: 40px;
+  margin-top: 35px !important;
   @media screen and (max-width: 992px) {
     margin: 32px 0;
     margin-bottom: 0;
-  }
-  .ant-input {
-    background-color: #f8faff;
-    &:hover {
-      border-color: #2e49d5 !important;
-    }
-    &:active {
-      border-color: #2e49d5 !important;
-    }
-  }
-`
-
-const TopicSearch = styled(Search)`
-  height: 48px;
-  margin-top: 40px;
-  @media screen and (max-width: 992px) {
-    display: none;
   }
   .ant-input {
     background-color: #f8faff;
@@ -200,61 +211,61 @@ export default class SearchPage extends React.Component {
     return (
       <Layout>
         <ArticleList>
-          {window.innerWidth < 992 && (
-            <MobileTopicSearch
-              className="search"
-              placeholder="搜索文章"
-              defaultValue={value}
-              indices={searchIndices}
-              onSearch={this.search}
-            />
-          )}
-          <div className="articles">
-            {window.innerWidth > 992 && (
-              <div className="searchResult">
-                共<span className="search-count">{filterEdges.length}</span>
-                篇相关文章
-              </div>
-            )}
-            {filterEdges.length === 0 && <div className="empty-search">没有找到和"{value}"有关的文章</div>}
-            {filterEdges.map(({ node }) => (
-              <Link to={node.frontmatter.path} key={node.frontmatter.path}>
-                <div className="article" key={node.id}>
-                  <div className="article-title">{node.frontmatter.title}</div>
-                  <div className="article-tag">
-                    {node.frontmatter.tags.map(item => (
-                      <span className="tag" key={item}>
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="brief-info">{node.frontmatter.brief}</div>
-                  <div>
-                    <span className="author-info">
-                      {node.frontmatter.author}
-                    </span>
-                    <span className="time-info">{node.frontmatter.date}</span>
-                    <span className="article-view">
-                      查看全文
-                      <Icon type="caret-right" />
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-          <div className="hot-topics">
-            {window.innerWidth > 992 && (
-              <TopicSearch
+          <div className="articles-zone">
+            {window.innerWidth < 992 && (
+              <MobileTopicSearch
                 className="search"
                 placeholder="搜索文章"
-                indices={searchIndices}
                 defaultValue={value}
+                indices={searchIndices}
                 onSearch={this.search}
               />
             )}
-            {window.innerWidth > 992 && <HotTopic />}
+            <div className="articles">
+              {window.innerWidth > 992 && (
+                <div className="searchResult">
+                  共<span className="search-count">{filterEdges.length}</span>
+                  篇相关文章
+                </div>
+              )}
+              {filterEdges.length === 0 && (
+                <div className="empty-search">
+                  没有找到和"{value}"有关的文章
+                </div>
+              )}
+              {filterEdges.map(({ node }) => (
+                <Link to={node.frontmatter.path} key={node.frontmatter.path}>
+                  <div className="article" key={node.id}>
+                    <div className="article-title">
+                      {node.frontmatter.title}
+                    </div>
+                    <div className="article-tag">
+                      {node.frontmatter.tags.map(item => (
+                        <span className="tag" key={item}>
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="brief-info">{node.frontmatter.brief}</div>
+                    <div>
+                      <span className="author-info">
+                        {node.frontmatter.author}
+                      </span>
+                      <span className="time-info">{node.frontmatter.date}</span>
+                      <span className="article-view">
+                        查看全文
+                        <Icon type="caret-right" />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="hot-topics">
+              {window.innerWidth > 992 && <HotTopic />}
+            </div>
           </div>
+          <RecommendArticle otherEdges={edges} />
         </ArticleList>
       </Layout>
     )

@@ -1,13 +1,11 @@
 import React from "react"
-import { Icon, Input } from "antd"
+import { Icon } from "antd"
 import styled from "styled-components"
 import { graphql, Link, navigate } from "gatsby"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import HotTopic from "../components/topic"
 // import Search from "../components/Search"
-
-const { Search } = Input
 
 const ArticleList = styled.div`
   padding-bottom: 60px;
@@ -17,6 +15,7 @@ const ArticleList = styled.div`
     display: block;
     width: 100%;
     padding: 0 20px;
+    position: relative;
   }
   width: 100%;
   padding: 0 10%;
@@ -28,6 +27,11 @@ const ArticleList = styled.div`
     @media screen and (max-width: 992px) {
       margin-right: 0;
       right: 0px;
+    }
+    &:first-child {
+      @media screen and (max-width: 992px) {
+        padding-top: 35px;
+      }
     }
     .article {
       cursor: pointer;
@@ -58,6 +62,11 @@ const ArticleList = styled.div`
         margin-bottom: 16px;
         @media screen and (max-width: 992px) {
           font-size: 20px;
+        }
+        &:first-child {
+          @media screen and (max-width: 992px) {
+            margin-top: 35px;
+          }
         }
       }
       .article-tag {
@@ -134,46 +143,8 @@ const ArticleList = styled.div`
     }
   }
 `
-const MobileTopicSearch = styled(Search)`
-  height: 48px;
-  margin-bottom: 40px;
-  @media screen and (max-width: 992px) {
-    margin: 32px 0;
-    margin-bottom: 0;
-  }
-  .ant-input {
-    background-color: #f8faff;
-    &:hover {
-      border-color: #2e49d5 !important;
-    }
-    &:active {
-      border-color: #2e49d5 !important;
-    }
-  }
-`
-
-const TopicSearch = styled(Search)`
-  height: 48px;
-  margin-top: 40px;
-  @media screen and (max-width: 992px) {
-    display: none;
-  }
-  .ant-input {
-    background-color: #f8faff;
-    &:hover {
-      border-color: #2e49d5 !important;
-    }
-    &:active {
-      border-color: #2e49d5 !important;
-    }
-  }
-`
 
 const PAGE_SIZE = 5
-const searchIndices = [
-  { name: `Pages`, title: `Pages`, hitComp: `PageHit` },
-  { name: `Posts`, title: `Blog Posts`, hitComp: `PostHit` },
-]
 
 export default class IndexPage extends React.PureComponent {
   state = {
@@ -209,14 +180,6 @@ export default class IndexPage extends React.PureComponent {
       <Layout>
         <SEO title="Home" />
         <ArticleList>
-          {window.innerWidth < 992 && (
-            <MobileTopicSearch
-              className="search"
-              placeholder="搜索文章"
-              indices={searchIndices}
-              onSearch={this.search}
-            />
-          )}
           <div className="articles">
             {edges.slice(0, (page + 1) * PAGE_SIZE).map(({ node }) => (
               <Link to={node.frontmatter.path} key={node.frontmatter.path}>
@@ -251,17 +214,7 @@ export default class IndexPage extends React.PureComponent {
               更多文章
             </div>
           </div>
-          <div className="hot-topics">
-            {window.innerWidth > 992 && (
-              <TopicSearch
-                className="search"
-                placeholder="搜索文章"
-                indices={searchIndices}
-                onSearch={this.search}
-              />
-            )}
-            <HotTopic />
-          </div>
+          <HotTopic />
         </ArticleList>
       </Layout>
     )

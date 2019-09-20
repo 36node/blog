@@ -2,9 +2,12 @@
    由zhaojunzhe于2019/9/17创建
 */
 import React from "react"
-import { useStaticQuery, graphql, Link } from "gatsby"
+import { useStaticQuery, graphql, Link, navigate } from "gatsby"
+import { Input } from "antd"
 import kebabCase from "lodash/kebabCase"
 import styled from "styled-components"
+
+const { Search } = Input
 
 const HotTopic = styled.div`
   padding-top: 40px;
@@ -42,6 +45,28 @@ const HotTopic = styled.div`
   }
 `
 
+const TopicSearch = styled(Search)`
+  height: 48px;
+  margin-top: 40px;
+  @media screen and (max-width: 992px) {
+    position: absolute !important;
+    top: 35px;
+    width: calc(100% - 40px) !important;
+  }
+  .ant-input {
+    background-color: #f8faff;
+    &:hover {
+      border-color: #2e49d5 !important;
+    }
+    &:active {
+      border-color: #2e49d5 !important;
+    }
+  }
+`
+const search = value => {
+  navigate("/search", { state: { value } })
+}
+
 const Topic = () => {
   const data = useStaticQuery(graphql`
     query {
@@ -62,6 +87,11 @@ const Topic = () => {
   } = data
   return (
     <HotTopic>
+      <TopicSearch
+        className="search"
+        placeholder="搜索文章"
+        onSearch={search}
+      />
       <div className="title">所有分类</div>
       <div className="topic-list">
         {group.map((tag, index) => (

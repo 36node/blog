@@ -19,6 +19,7 @@ import Banner from "./banner"
 const LayoutWrapper = styled.div`
   margin-top: 68px;
   background-color: #f8faff;
+  overflow-x: hidden;
   a{
     color: #2E49D5;
   }

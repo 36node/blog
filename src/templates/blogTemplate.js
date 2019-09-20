@@ -1,14 +1,11 @@
 import React from "react"
 import styled from "styled-components"
 import Layout from "../components/layout"
-import { graphql, Link, navigate } from "gatsby"
-import { Icon, Input, Progress, Row, Col } from "antd"
-import { difference } from "lodash"
+import { graphql, Link } from "gatsby"
+import { Icon, Progress } from "antd"
+import RecommendArticle from "../components/recommendArticle";
 import HotTopic from "../components/topic"
 // import Search from "../components/Search"
-
-const { Search } = Input
-
 const BlogProgress = styled(Progress)`
   position: fixed;
   top: -11px;
@@ -144,10 +141,11 @@ const ArticleArea = styled.div`
 
 const ArticleList = styled.div`
   padding-bottom: 60px;
-  padding: 40px 10%;
+  padding: 0px 10%;
   margin: 0 auto;
   @media screen and (max-width: 992px) {
-    padding: 35px 20px 0 20px;
+    padding: 70px 20px 0 20px;
+    position: relative;
   }
   .article-detail {
     display: grid;
@@ -157,6 +155,7 @@ const ArticleList = styled.div`
     }
     .articles {
       margin-right: 200px;
+      padding-top: 40px;
       @media screen and (max-width: 992px) {
         margin-right: 0px;
       }
@@ -214,105 +213,6 @@ const ArticleList = styled.div`
         }
       }
     }
-    .hot-topics {
-      width: 320px;
-      @media screen and (max-width: 992px) {
-        width: auto;
-      }
-      .title {
-        margin-top: 48px;
-        font-size: 28px;
-        font-family: PingFangSC;
-        font-weight: 600;
-        color: rgba(50, 56, 84, 1);
-        margin-bottom: 16px;
-      }
-      .topic-list {
-        .topic {
-          height: 48px;
-          background-color: white;
-          margin-bottom: 8px;
-          border-left: 2px solid #dfe0e9;
-          font-size: 14px;
-          font-family: PingFangSC;
-          font-weight: 400;
-          color: rgba(46, 73, 213, 1);
-          padding-left: 16px;
-          line-height: 48px;
-          cursor: pointer;
-          &:hover {
-            border-left: 2px solid #667be7;
-          }
-        }
-      }
-    }
-  }
-`
-
-const TopicSearch = styled(Search)`
-  height: 48px;
-  @media screen and (max-width: 992px) {
-    display: none;
-  }
-  .ant-input {
-    background-color: #f8faff;
-    &:hover {
-      border-color: #2e49d5 !important;
-    }
-    &:active {
-      border-color: #2e49d5 !important;
-    }
-  }
-`
-const MobileTopicSearch = styled(Search)`
-  height: 48px;
-  margin-bottom: 40px;
-  @media screen and (max-width: 992px) {
-    margin-bottom: 35px;
-  }
-  .ant-input {
-    background-color: #f8faff;
-    &:hover {
-      border-color: #2e49d5 !important;
-    }
-    &:active {
-      border-color: #2e49d5 !important;
-    }
-  }
-`
-
-const MobileHotTopic = styled.div`
-  width: 320px;
-  padding-top: 40px;
-  @media screen and (max-width: 992px) {
-    width: auto;
-    padding-top: 0px;
-  }
-  .title {
-    margin-top: 48px;
-    font-size: 28px;
-    font-family: PingFangSC;
-    font-weight: 600;
-    color: rgba(50, 56, 84, 1);
-    margin-bottom: 16px;
-  }
-  .topic-list {
-    .topic {
-      height: 48px;
-      background-color: white;
-      margin-bottom: 8px;
-      border-left: 2px solid #dfe0e9;
-      font-size: 14px;
-      font-family: PingFangSC;
-      font-weight: 400;
-      color: rgba(46, 73, 213, 1);
-      padding-left: 16px;
-      line-height: 48px;
-      cursor: pointer;
-      &:hover {
-        border-left: 2px solid #667be7;
-      }
-    }
   }
 `
 
@@ -326,35 +226,6 @@ function createTagArray(array) {
   }
   return null
 }
-
-function findRelativeBlog(array = [], currentBlogTagArray = []) {
-  let resultId = []
-  for (let i = 0; i < array.length; i++) {
-    const {
-      node: {
-        id,
-        frontmatter: { tags },
-      },
-    } = array[i]
-    if (
-      difference(tags, currentBlogTagArray).length === 0 &&
-      !resultId.includes(id)
-    ) {
-      resultId.push(id)
-    }
-  }
-  let recommendArray = array.filter(item => resultId.includes(item.node.id))
-  return recommendArray.length > 3 ? recommendArray.slice(0, 3) : recommendArray
-}
-
-const search = value => {
-  navigate("/search", { state: { value } })
-}
-
-const searchIndices = [
-  { name: `Pages`, title: `Pages`, hitComp: `PageHit` },
-  { name: `Posts`, title: `Blog Posts`, hitComp: `PostHit` },
-]
 
 export default class Template extends React.PureComponent {
   state = {
@@ -378,7 +249,6 @@ export default class Template extends React.PureComponent {
   }
   render() {
     const { data } = this.props
-    console.log(data)
     const {
       markdownRemark,
       allMarkdownRemark: { edges },
@@ -389,7 +259,6 @@ export default class Template extends React.PureComponent {
       item => item.node.frontmatter.path === currentPath
     )
     const otherEdges = edges.filter((item, index) => index !== currentIndex)
-    const recommendArray = findRelativeBlog(otherEdges, frontmatter.tags)
     return (
       <Layout>
         {this.state.percent !== 0 && (
@@ -401,13 +270,6 @@ export default class Template extends React.PureComponent {
         )}
         <ArticleArea>
           <ArticleList>
-            {window.innerWidth < 992 && (
-              <MobileTopicSearch
-                placeholder="搜索文章"
-                indices={searchIndices}
-                onSearch={search}
-              />
-            )}
             <div className="article-detail">
               <div className="articles">
                 <div className="title">{frontmatter.title}</div>
@@ -428,15 +290,7 @@ export default class Template extends React.PureComponent {
                 </div>
               </div>
               {window.innerWidth > 992 && (
-                <div className="hot-topics">
-                  <TopicSearch
-                    className="search"
-                    placeholder="搜索文章"
-                    indices={searchIndices}
-                    onSearch={search}
-                  />
-                  <HotTopic />
-                </div>
+                <HotTopic />
               )}
             </div>
             <div className="operation">
@@ -482,65 +336,9 @@ export default class Template extends React.PureComponent {
                 </div>
               </div>
             </div>
-            {recommendArray.length !== 0 && (
-              <div className="recommend-area">
-                <div className="title">推荐文章</div>
-                <div className="recommend-articles">
-                  {window.innerWidth > 992 ? (
-                    <Row
-                      gutter={24}
-                      style={{ width: "100%", marginRight: 0, marginLeft: 0 }}
-                    >
-                      <div>
-                        {recommendArray.map(item => {
-                          const {
-                            node: {
-                              id,
-                              frontmatter: { title, path },
-                            },
-                          } = item
-                          return (
-                            <Col span={8} className="cube">
-                              <Link to={path} key={path}>
-                                <div className="recommend-article" key={id}>
-                                  <div className="recommend-article-title">
-                                    {title}
-                                  </div>
-                                </div>
-                              </Link>
-                            </Col>
-                          )
-                        })}
-                      </div>
-                    </Row>
-                  ) : (
-                    <div>
-                      {recommendArray.map(item => {
-                        const {
-                          node: {
-                            id,
-                            frontmatter: { title, path },
-                          },
-                        } = item
-                        return (
-                          <Link to={path} key={path}>
-                            <div className="recommend-article" key={id}>
-                              <div className="recommend-article-title">
-                                {title}
-                              </div>
-                            </div>
-                          </Link>
-                        )
-                      })}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
+            <RecommendArticle otherEdges={otherEdges} tagsArray={frontmatter.tags} />
             {window.innerWidth < 992 && (
-              <MobileHotTopic>
-                <HotTopic />
-              </MobileHotTopic>
+              <HotTopic />
             )}
           </ArticleList>
         </ArticleArea>

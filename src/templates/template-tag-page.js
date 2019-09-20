@@ -15,6 +15,7 @@ const ArticleList = styled.div`
     display: block;
     width: 100%;
     padding: 0 20px;
+    position: relative;
   }
   width: 100%;
   padding: 0 10%;
@@ -26,6 +27,11 @@ const ArticleList = styled.div`
     @media screen and (max-width: 992px) {
       margin-right: 0;
       right: 0px;
+    }
+    &:first-child {
+      @media screen and (max-width: 992px) {
+        padding-top: 35px;
+      }
     }
     .article {
       cursor: pointer;
@@ -57,6 +63,11 @@ const ArticleList = styled.div`
         @media screen and (max-width: 992px) {
           font-size: 20px;
         }
+        &:first-child {
+          @media screen and (max-width: 992px) {
+            margin-top: 35px;
+          }
+        }
       }
       .article-tag {
         margin-bottom: 24px;
@@ -79,6 +90,9 @@ const ArticleList = styled.div`
         font-weight: 400;
         color: rgba(107, 109, 127, 1);
         margin-bottom: 24px;
+        @media screen and (max-width: 992px) {
+          margin-bottom: 16px;
+        }
         overflow: hidden;
         text-overflow: ellipsis;
       }
@@ -129,40 +143,7 @@ const ArticleList = styled.div`
     }
   }
 `
-const MobileTopicSearch = styled(Search)`
-  height: 48px;
-  margin-bottom: 40px;
-  @media screen and (max-width: 992px) {
-    margin: 32px 0;
-    margin-bottom: 0;
-  }
-  .ant-input {
-    background-color: #f8faff;
-    &:hover {
-      border-color: #2e49d5 !important;
-    }
-    &:active {
-      border-color: #2e49d5 !important;
-    }
-  }
-`
 
-const TopicSearch = styled(Search)`
-  height: 48px;
-  margin-top: 40px;
-  @media screen and (max-width: 992px) {
-    display: none;
-  }
-  .ant-input {
-    background-color: #f8faff;
-    &:hover {
-      border-color: #2e49d5 !important;
-    }
-    &:active {
-      border-color: #2e49d5 !important;
-    }
-  }
-`
 
 class TagRoute extends React.Component {
   search = value => {
@@ -178,13 +159,6 @@ class TagRoute extends React.Component {
     return (
       <Layout location={this.props.location}>
         <ArticleList>
-          {window.innerWidth < 992 && (
-            <MobileTopicSearch
-              className="search"
-              placeholder="搜索文章"
-              onSearch={this.search}
-            />
-          )}
           <div className="articles">
             {edges.map(({ node }) => (
               <Link to={node.frontmatter.path} key={node.frontmatter.path}>
@@ -213,13 +187,6 @@ class TagRoute extends React.Component {
             ))}
           </div>
           <div className="hot-topics">
-            {window.innerWidth > 992 && (
-              <TopicSearch
-                className="search"
-                placeholder="搜索文章"
-                onSearch={this.search}
-              />
-            )}
             <HotTopic />
           </div>
         </ArticleList>
