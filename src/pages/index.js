@@ -30,7 +30,7 @@ const ArticleList = styled.div`
     }
     &:first-child {
       @media screen and (max-width: 992px) {
-        padding-top: 35px;
+        padding-top: 75px;
       }
     }
     .article {
@@ -62,11 +62,6 @@ const ArticleList = styled.div`
         margin-bottom: 16px;
         @media screen and (max-width: 992px) {
           font-size: 20px;
-        }
-        &:first-child {
-          @media screen and (max-width: 992px) {
-            margin-top: 35px;
-          }
         }
       }
       .article-tag {

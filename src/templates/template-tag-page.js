@@ -2,10 +2,8 @@ import React from "react"
 import { Link, graphql, navigate } from "gatsby"
 import styled from "styled-components"
 import Layout from "../components/layout"
-import { Icon, Input } from "antd"
+import { Icon } from "antd"
 import HotTopic from "../components/topic"
-
-const { Search } = Input
 
 const ArticleList = styled.div`
   padding-bottom: 60px;
@@ -30,7 +28,7 @@ const ArticleList = styled.div`
     }
     &:first-child {
       @media screen and (max-width: 992px) {
-        padding-top: 35px;
+        padding-top: 75px;
       }
     }
     .article {
@@ -62,11 +60,6 @@ const ArticleList = styled.div`
         margin-bottom: 16px;
         @media screen and (max-width: 992px) {
           font-size: 20px;
-        }
-        &:first-child {
-          @media screen and (max-width: 992px) {
-            margin-top: 35px;
-          }
         }
       }
       .article-tag {
