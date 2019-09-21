@@ -38,8 +38,10 @@ const HotTopic = styled.div`
       padding-left: 16px;
       line-height: 48px;
       cursor: pointer;
-      &:hover {
-        border-left: 2px solid #667be7;
+      @media screen and (min-width: 992px) {
+        &:hover {
+          border-left: 2px solid #667be7;
+        }
       }
     }
   }

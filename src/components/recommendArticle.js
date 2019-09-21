@@ -42,6 +42,7 @@ const RecommendArea = styled.div`
       font-family: PingFangSC;
       font-weight: 600;
       color: rgba(50, 56, 84, 1);
+      margin-bottom: 40px;
     }
     .recommend-articles {
       display: flex;
