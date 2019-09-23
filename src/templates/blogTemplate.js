@@ -31,6 +31,15 @@ const ArticleArea = styled.div`
       border-top: 2px solid #dfe0e9;
       padding-bottom: 0;
     }
+    .right{
+      float: right;
+    }
+    .left{
+      float: left;
+    }
+    .clear{
+      clear: both;
+    }
     .arrow {
       font-size: 16px;
       font-family: PingFangSC;
@@ -59,7 +68,7 @@ const ArticleArea = styled.div`
       }
     }
     .article-title {
-      margin-top: 32px;
+      margin-top: 16px;
       font-size: 16px;
       font-family: PingFangSC;
       font-weight: 400;
@@ -68,6 +77,7 @@ const ArticleArea = styled.div`
         margin-top: 0px;
         padding-left: 15px;
         border-left: 2px solid #dfe0e9;
+        max-width: 70%;
       }
     }
   }
@@ -302,7 +312,7 @@ export default class Template extends React.PureComponent {
             <div className="operation">
               <div className="prev-article">
                 <span
-                  className="arrow"
+                  className="arrow left"
                   style={{ paddingLeft: currentIndex === 0 ? 16 : 0 }}
                 >
                   {currentIndex !== 0 && <Icon type="caret-left" />}
@@ -317,6 +327,7 @@ export default class Template extends React.PureComponent {
                     上一篇
                   </Link>
                 </span>
+                <div className="clear" />
                 <div className="article-title">
                   {currentIndex === 0
                     ? "这是第一篇"
@@ -325,7 +336,7 @@ export default class Template extends React.PureComponent {
               </div>
               <div className="next-article">
                 <span
-                  className="arrow"
+                  className="arrow right"
                   style={{
                     paddingLeft: currentIndex === edges.length - 1 ? 16 : 0,
                   }}
@@ -349,6 +360,7 @@ export default class Template extends React.PureComponent {
                       <Icon type="caret-right" />
                     )}
                 </span>
+                <div className="clear" />
                 <div className="article-title">
                   {currentIndex < edges.length - 1
                     ? edges[currentIndex + 1].node.frontmatter.title
