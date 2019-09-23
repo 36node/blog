@@ -23,6 +23,21 @@ const ArticleList = styled.div`
     right: 40px;
     max-width: 800px;
     padding-bottom: 50px;
+    .searchResult {
+      height: 48px;
+      margin-top: 40px;
+      border-bottom: 1px solid #dfe0e9;
+      margin-left: 40px;
+      line-height: 60px;
+      color: #9ea6b4;
+      letter-spacing: 3px;
+      @media screen and (max-width: 992px) {
+        margin-left: 0px;
+      }
+      .search-count {
+        color: #2e49d5;
+      }
+    }
     @media screen and (max-width: 992px) {
       margin-right: 0;
       right: 0px;
@@ -138,7 +153,6 @@ const ArticleList = styled.div`
   }
 `
 
-
 class TagRoute extends React.Component {
   search = value => {
     navigate("/search", { state: { value } })
@@ -146,14 +160,20 @@ class TagRoute extends React.Component {
   render() {
     const {
       data: {
-        allMarkdownRemark: { edges },
+        allMarkdownRemark: { edges, totalCount },
       },
+      pageContext: { tag },
     } = this.props
+    console.log(tag)
 
     return (
       <Layout location={this.props.location}>
         <ArticleList>
           <div className="articles">
+            <div className="searchResult">
+              共<span className="search-count">{totalCount}</span>
+              篇和"{tag}"分类的文章
+            </div>
             {edges.map(({ node }) => (
               <Link to={node.frontmatter.path} key={node.frontmatter.path}>
                 <div className="article" key={node.id}>
