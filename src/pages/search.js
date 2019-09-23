@@ -191,17 +191,17 @@ const MobileTopicSearch = styled(Search)`
 `
 
 export default class SearchPage extends React.Component {
-  componentDidMount() {
-    this.scroll();
-  }
-  scroll = () => {
-    setTimeout(() => {
-      window.scrollTo({
-        top: 320,
-        behavior: "smooth",
-      })
-    }, 0)
-  }
+  // componentDidMount() {
+  //   this.scroll();
+  // }
+  // scroll = () => {
+  //   setTimeout(() => {
+  //     window.scrollTo({
+  //       top: 320,
+  //       behavior: "smooth",
+  //     })
+  //   }, 0)
+  // }
   
   search = value => {
     if (value === "") {
@@ -237,7 +237,6 @@ export default class SearchPage extends React.Component {
               />
             )}
             <div className="articles">
-              <a href="#a" />
               <div className="searchResult">
                 共<span className="search-count">{filterEdges.length}</span>
                 篇和"{value}"相关的文章

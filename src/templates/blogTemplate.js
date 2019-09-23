@@ -242,12 +242,6 @@ export default class Template extends React.PureComponent {
     percent: 0,
   }
   componentDidMount = () => {
-    setTimeout(() => {
-      window.scrollTo({
-        top: 320,
-        behavior: "smooth",
-      })
-    }, 0)
     window.addEventListener("scroll", this.progress)
   }
   componentWillUnmount = () => {
