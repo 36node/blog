@@ -5,7 +5,6 @@ import LogoImg from './logoImage';
 import { NavLink } from "react-router-dom"
 import { withRouter } from "react-router"
 
-
 import LargeContainer from "./container-large"
 import { graphql, Link } from "gatsby"
 
@@ -123,31 +122,32 @@ class BlogHeader extends React.PureComponent {
   }
 
   renderMenu = mode => {
+    const homePageUrl="http://www.adventurer.tech";
     return (
       <WrapMenu
         mode={mode}
         onClick={() => {
           this.closeDrawer()
         }}
-        selectedKeys={[this.props.location.pathname]}
+        selectedKeys="/opinion"
       >
-        <WrapMenu.Item key="/">
-          <NavLink to="/">首页</NavLink>
+        <WrapMenu.Item>
+          <a href={`${homePageUrl}`}>首页</a>
         </WrapMenu.Item>
         <WrapMenu.Item key="/service">
-          <NavLink to="/service">服务</NavLink>
+          <a href={`${homePageUrl}/service`}>服务</a>
         </WrapMenu.Item>
         <WrapMenu.Item key="/cases">
-          <NavLink to="/cases">案例</NavLink>
+          <a href={`${homePageUrl}/cases`}>案例</a>
         </WrapMenu.Item>
         <WrapMenu.Item key="/opinion">
           <Link to="/">观点</Link>
         </WrapMenu.Item>
         <WrapMenu.Item key="/about">
-          <NavLink to="/about">关于</NavLink>
+          <a href={`${homePageUrl}/about`}>关于</a>
         </WrapMenu.Item>
         <WrapMenu.Item key="/join">
-          <NavLink to="/join">加入</NavLink>
+          <a href={`${homePageUrl}/join`}>加入</a>
         </WrapMenu.Item>
       </WrapMenu>
     )
