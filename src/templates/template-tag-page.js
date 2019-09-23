@@ -172,7 +172,7 @@ class TagRoute extends React.Component {
           <div className="articles">
             <div className="searchResult">
               共<span className="search-count">{totalCount}</span>
-              篇和"{tag}"分类的文章
+              篇和"{tag}"分类相关的文章
             </div>
             {edges.map(({ node }) => (
               <Link to={node.frontmatter.path} key={node.frontmatter.path}>
