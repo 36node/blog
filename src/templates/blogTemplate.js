@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Layout from "../components/layout"
 import { graphql, Link } from "gatsby"
 import { Icon, Progress } from "antd"
-import RecommendArticle from "../components/recommendArticle";
+import RecommendArticle from "../components/recommendArticle"
 import HotTopic from "../components/topic"
 // import Search from "../components/Search"
 const BlogProgress = styled(Progress)`
@@ -140,9 +140,9 @@ const ArticleArea = styled.div`
 `
 
 const ArticleList = styled.div`
-  padding-bottom: 60px;
   padding: 0px 10%;
   margin: 0 auto;
+  padding-bottom: 50px;
   @media screen and (max-width: 992px) {
     padding: 70px 20px 0 20px;
     position: relative;
@@ -232,6 +232,12 @@ export default class Template extends React.PureComponent {
     percent: 0,
   }
   componentDidMount = () => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 320,
+        behavior: "smooth",
+      })
+    }, 0)
     window.addEventListener("scroll", this.progress)
   }
   componentWillUnmount = () => {
@@ -272,7 +278,9 @@ export default class Template extends React.PureComponent {
           <ArticleList>
             <div className="article-detail">
               <div className="articles">
-                <div className="title">{frontmatter.title}</div>
+                <div className="title" ref="target">
+                  {frontmatter.title}
+                </div>
                 {frontmatter.tags && (
                   <div className="article-tag">
                     {createTagArray(frontmatter.tags)}
@@ -289,14 +297,15 @@ export default class Template extends React.PureComponent {
                   />
                 </div>
               </div>
-              {window.innerWidth > 992 && (
-                <HotTopic />
-              )}
+              {window.innerWidth > 992 && <HotTopic />}
             </div>
             <div className="operation">
               <div className="prev-article">
-                <span className="arrow">
-                  <Icon type="caret-left" />
+                <span
+                  className="arrow"
+                  style={{ paddingLeft: currentIndex === 0 ? 16 : 0 }}
+                >
+                  {currentIndex !== 0 && <Icon type="caret-left" />}
                   <Link
                     to={
                       currentIndex === 0
@@ -315,8 +324,16 @@ export default class Template extends React.PureComponent {
                 </div>
               </div>
               <div className="next-article">
-                <span className="arrow">
-                  {window.innerWidth < 992 && <Icon type="caret-right" />}
+                <span
+                  className="arrow"
+                  style={{
+                    paddingLeft: currentIndex === edges.length - 1 ? 16 : 0,
+                  }}
+                >
+                  {window.innerWidth < 992 &&
+                    currentIndex < edges.length - 1 && (
+                      <Icon type="caret-right" />
+                    )}
                   <Link
                     to={
                       currentIndex < edges.length - 1
@@ -327,7 +344,10 @@ export default class Template extends React.PureComponent {
                   >
                     下一篇
                   </Link>
-                  {window.innerWidth > 992 && <Icon type="caret-right" />}
+                  {window.innerWidth > 992 &&
+                    currentIndex < edges.length - 1 && (
+                      <Icon type="caret-right" />
+                    )}
                 </span>
                 <div className="article-title">
                   {currentIndex < edges.length - 1
@@ -336,10 +356,11 @@ export default class Template extends React.PureComponent {
                 </div>
               </div>
             </div>
-            <RecommendArticle otherEdges={otherEdges} tagsArray={frontmatter.tags} />
-            {window.innerWidth < 992 && (
-              <HotTopic />
-            )}
+            <RecommendArticle
+              otherEdges={otherEdges}
+              tagsArray={frontmatter.tags}
+            />
+            {window.innerWidth < 992 && <HotTopic />}
           </ArticleList>
         </ArticleArea>
       </Layout>

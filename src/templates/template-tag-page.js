@@ -22,6 +22,7 @@ const ArticleList = styled.div`
     position: relative;
     right: 40px;
     max-width: 800px;
+    padding-bottom: 50px;
     @media screen and (max-width: 992px) {
       margin-right: 0;
       right: 0px;

@@ -1,6 +1,7 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import Img from "gatsby-image"
+import test from "../../static/a.png"
 
 /*
  * This component is built using `gatsby-image` to automatically serve optimized
@@ -18,7 +19,7 @@ const Image = () => {
     query {
       file(relativePath: { eq: "article-banner.png" }) {
         childImageSharp {
-          fluid(maxWidth: 440){
+          fluid(maxWidth: 440, maxHeight: 320) {
             ...GatsbyImageSharpFluid
           }
           fixed(width: 440, height: 320) {
@@ -33,7 +34,7 @@ const Image = () => {
     <Img
       fluid={data.file.childImageSharp.fluid}
       alt="Gatsby Docs are awesome"
-      css={{width: 440}}
+      style={{ width: "100%" }}
     />
   )
 }

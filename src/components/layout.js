@@ -20,6 +20,7 @@ const LayoutWrapper = styled.div`
   margin-top: 68px;
   background-color: #f8faff;
   overflow-x: hidden;
+  scroll-behavior: smooth;
   a{
     color: #2E49D5;
   }

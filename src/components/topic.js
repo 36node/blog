@@ -27,6 +27,7 @@ const HotTopic = styled.div`
   }
   .topic-list {
     .topic {
+      display: block;
       height: 48px;
       background-color: white;
       margin-bottom: 8px;
@@ -103,10 +104,10 @@ const Topic = () => {
             }}
             to={`/tags/${kebabCase(tag.fieldValue)}/`}
             key={index}
+            className="topic"
+            activeStyle={{ borderLeft: "2px solid #667be7" }}
           >
-            <div className="topic" key={tag.fieldValue}>
-              {tag.fieldValue} ({tag.totalCount})
-            </div>
+            {tag.fieldValue} ({tag.totalCount})
           </Link>
         ))}
       </div>

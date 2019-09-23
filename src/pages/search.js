@@ -52,6 +52,9 @@ const ArticleList = styled.div`
       line-height: 60px;
       color: #9ea6b4;
       letter-spacing: 3px;
+      @media screen and (max-width: 992px) {
+        margin-left: 0px;
+      }
       .search-count {
         color: #2e49d5;
       }
@@ -188,6 +191,15 @@ const MobileTopicSearch = styled(Search)`
 `
 
 export default class SearchPage extends React.Component {
+  componentDidMount() {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 320,
+        behavior: "smooth",
+      })
+    }, 0)
+  }
+  
   search = value => {
     if (value === "") {
       navigate("/")
@@ -222,12 +234,10 @@ export default class SearchPage extends React.Component {
               />
             )}
             <div className="articles">
-              {window.innerWidth > 992 && (
-                <div className="searchResult">
-                  共<span className="search-count">{filterEdges.length}</span>
-                  篇相关文章
-                </div>
-              )}
+              <div className="searchResult">
+                共<span className="search-count">{filterEdges.length}</span>
+                篇和"{value}"相关的文章
+              </div>
               {filterEdges.length === 0 && (
                 <div className="empty-search">
                   没有找到和"{value}"有关的文章

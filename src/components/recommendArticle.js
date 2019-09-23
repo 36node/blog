@@ -28,7 +28,7 @@ function findRelativeBlog(array = [], currentBlogTagArray = []) {
 }
 
 function noTagsRecommendArticle(edges) {
-  return shuffle(edges).slice(0, 3);
+  return shuffle(edges).slice(0, 3)
 }
 
 const RecommendArea = styled.div`
@@ -43,6 +43,9 @@ const RecommendArea = styled.div`
       font-weight: 600;
       color: rgba(50, 56, 84, 1);
       margin-bottom: 40px;
+      @media screen and (max-width: 992px) {
+        margin-bottom: 16px;
+      }
     }
     .recommend-articles {
       display: flex;
@@ -120,7 +123,7 @@ const RecommendArticle = ({ otherEdges = [], tagsArray }) => {
                   const {
                     node: {
                       id,
-                      frontmatter: { title, path },
+                      frontmatter: { title, path, brief },
                     },
                   } = item
                   return (
@@ -128,6 +131,7 @@ const RecommendArticle = ({ otherEdges = [], tagsArray }) => {
                       <Link to={path} key={path}>
                         <div className="recommend-article" key={id}>
                           <div className="recommend-article-title">{title}</div>
+                          <div className="recommend-article-brief">{brief}</div>
                         </div>
                       </Link>
                     </Col>
