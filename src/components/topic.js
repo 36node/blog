@@ -67,7 +67,8 @@ const TopicSearch = styled(Search)`
   }
 `
 const search = value => {
-  navigate("/search", { state: { value } })
+  navigate("/search", { state: { value } });
+  document.getElementById("search").blur();
 }
 
 const Topic = () => {
@@ -91,6 +92,7 @@ const Topic = () => {
   return (
     <HotTopic>
       <TopicSearch
+        id="search"
         className="search"
         placeholder="搜索文章"
         onSearch={search}
