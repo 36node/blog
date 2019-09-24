@@ -191,17 +191,16 @@ const MobileTopicSearch = styled(Search)`
 `
 
 export default class SearchPage extends React.Component {
-  // componentDidMount() {
-  //   this.scroll();
-  // }
-  // scroll = () => {
-  //   setTimeout(() => {
-  //     window.scrollTo({
-  //       top: 320,
-  //       behavior: "smooth",
-  //     })
-  //   }, 0)
-  // }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const inMobile = window.innerWidth < 992;
+    const scrollValue = inMobile ? 420 : 320;
+    setTimeout(() => {
+      window.scrollTo({
+        top: scrollValue,
+        behavior: "smooth",
+      })
+    }, 0)
+  }
   
   search = value => {
     if (value === "") {

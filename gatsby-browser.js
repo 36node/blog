@@ -14,7 +14,7 @@ exports.shouldUpdateScroll = ({
 
 exports.onRouteUpdate = ({ location, prevLocation }) => {
   const inMobile = window.innerWidth < 992;
-  const scrollValue = inMobile ? 400 : 320;
+  const scrollValue = inMobile ? 420 : 320;
   if (location.pathname.includes('blog') || location.pathname.includes('search')){
     setTimeout(() => {
       window.scrollTo({

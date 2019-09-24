@@ -14,7 +14,7 @@ const BannerWrapper = styled.div`
     grid-template-columns: 1fr 440px;
     height: 320px;
     @media screen and (max-width: 992px) {
-      height: 400px;
+      height: 420px;
       display: block;
       padding: 38px 20px 0 20px;
       text-align: center;
