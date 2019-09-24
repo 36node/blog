@@ -164,7 +164,6 @@ class TagRoute extends React.Component {
       },
       pageContext: { tag },
     } = this.props
-    console.log(tag)
 
     return (
       <Layout location={this.props.location}>
