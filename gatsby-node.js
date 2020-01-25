@@ -9,6 +9,7 @@
 const _ = require(`lodash`)
 const path = require(`path`)
 const slash = require(`slash`)
+const LodashModuleReplacementPlugin = require("lodash-webpack-plugin")
 
 exports.createPages = ({ actions, graphql }) => {
   const { createPage } = actions
@@ -18,9 +19,7 @@ exports.createPages = ({ actions, graphql }) => {
 
   return graphql(`
     {
-      allMarkdownRemark(
-        limit: 1000
-      ) {
+      allMarkdownRemark(limit: 1000) {
         edges {
           node {
             fields {
@@ -38,7 +37,7 @@ exports.createPages = ({ actions, graphql }) => {
     if (result.errors) {
       return Promise.reject(result.errors)
     }
-    const posts = result.data.allMarkdownRemark.edges;
+    const posts = result.data.allMarkdownRemark.edges
     posts.forEach(({ node }) => {
       createPage({
         brief: node.frontmatter.brief,

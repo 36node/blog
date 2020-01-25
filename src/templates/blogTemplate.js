@@ -31,13 +31,13 @@ const ArticleArea = styled.div`
       border-top: 2px solid #dfe0e9;
       padding-bottom: 0;
     }
-    .right{
+    .right {
       float: right;
     }
-    .left{
+    .left {
       float: left;
     }
-    .clear{
+    .clear {
       clear: both;
     }
     .arrow {
@@ -301,7 +301,7 @@ export default class Template extends React.PureComponent {
                   />
                 </div>
               </div>
-              {window.innerWidth > 992 && <HotTopic />}
+              <HotTopic />
             </div>
             <div className="operation">
               <div className="prev-article">
@@ -335,10 +335,6 @@ export default class Template extends React.PureComponent {
                     paddingLeft: currentIndex === edges.length - 1 ? 16 : 0,
                   }}
                 >
-                  {window.innerWidth < 992 &&
-                    currentIndex < edges.length - 1 && (
-                      <Icon type="caret-right" />
-                    )}
                   <Link
                     to={
                       currentIndex < edges.length - 1
@@ -349,10 +345,9 @@ export default class Template extends React.PureComponent {
                   >
                     下一篇
                   </Link>
-                  {window.innerWidth > 992 &&
-                    currentIndex < edges.length - 1 && (
-                      <Icon type="caret-right" />
-                    )}
+                  {currentIndex < edges.length - 1 && (
+                    <Icon type="caret-right" />
+                  )}
                 </span>
                 <div className="clear" />
                 <div className="article-title">
@@ -366,7 +361,7 @@ export default class Template extends React.PureComponent {
               otherEdges={otherEdges}
               tagsArray={frontmatter.tags}
             />
-            {window.innerWidth < 992 && <HotTopic />}
+            <HotTopic />
           </ArticleList>
         </ArticleArea>
       </Layout>

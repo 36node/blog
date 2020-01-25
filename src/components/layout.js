@@ -21,8 +21,8 @@ const LayoutWrapper = styled.div`
   background-color: #f8faff;
   overflow-x: hidden;
   scroll-behavior: smooth;
-  a{
-    color: #2E49D5;
+  a {
+    color: #2e49d5;
   }
 `
 
@@ -37,8 +37,10 @@ const Layout = ({ children }) => {
     }
   `)
 
+  const history = createBrowserHistory()
+
   return (
-    <Router history={createBrowserHistory()}>
+    <Router history={history}>
       <Header siteTitle={data.site.siteMetadata.title} />
       <LayoutWrapper>
         <Banner />

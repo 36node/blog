@@ -2,7 +2,7 @@
    由zhaojunzhe于2019/9/14创建
 */
 import React from "react"
-import { Icon, Input } from "antd"
+import { Icon } from "antd"
 import styled from "styled-components"
 import { graphql, Link, navigate } from "gatsby"
 import Layout from "../components/layout"
@@ -10,12 +10,10 @@ import HotTopic from "../components/topic"
 import RecommendArticle from "../components/recommendArticle"
 // import Search from "../components/Search"
 
-const { Search } = Input
-
-const searchIndices = [
-  { name: `Pages`, title: `Pages`, hitComp: `PageHit` },
-  { name: `Posts`, title: `Blog Posts`, hitComp: `PostHit` },
-]
+// const searchIndices = [
+//   { name: `Pages`, title: `Pages`, hitComp: `PageHit` },
+//   { name: `Posts`, title: `Blog Posts`, hitComp: `PostHit` },
+// ]
 
 const ArticleList = styled.div`
   padding-bottom: 60px;
@@ -27,7 +25,7 @@ const ArticleList = styled.div`
       display: block;
     }
   }
-  .hot-topics{
+  .hot-topics {
     padding-top: 40px;
   }
   @media screen and (max-width: 992px) {
@@ -171,37 +169,8 @@ const ArticleList = styled.div`
     }
   }
 `
-const MobileTopicSearch = styled(Search)`
-  height: 48px;
-  margin-bottom: 40px;
-  margin-top: 35px !important;
-  @media screen and (max-width: 992px) {
-    margin: 32px 0;
-    margin-bottom: 0;
-  }
-  .ant-input {
-    background-color: #f8faff;
-    &:hover {
-      border-color: #2e49d5 !important;
-    }
-    &:active {
-      border-color: #2e49d5 !important;
-    }
-  }
-`
 
 export default class SearchPage extends React.Component {
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const inMobile = window.innerWidth < 992;
-    const scrollValue = inMobile ? 420 : 320;
-    setTimeout(() => {
-      window.scrollTo({
-        top: scrollValue,
-        behavior: "smooth",
-      })
-    }, 0)
-  }
-  
   search = value => {
     if (value === "") {
       navigate("/")
@@ -226,15 +195,6 @@ export default class SearchPage extends React.Component {
       <Layout>
         <ArticleList>
           <div className="articles-zone">
-            {window.innerWidth < 992 && (
-              <MobileTopicSearch
-                className="search"
-                placeholder="搜索文章"
-                defaultValue={value}
-                indices={searchIndices}
-                onSearch={this.search}
-              />
-            )}
             <div className="articles">
               <div className="searchResult">
                 共<span className="search-count">{filterEdges.length}</span>
@@ -274,7 +234,7 @@ export default class SearchPage extends React.Component {
               ))}
             </div>
             <div className="hot-topics">
-              {window.innerWidth > 992 && <HotTopic />}
+              <HotTopic />
             </div>
           </div>
           <RecommendArticle otherEdges={edges} />

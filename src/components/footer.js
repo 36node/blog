@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom"
 
 import Container from "./container"
 import LogoImg from "./logoImage"
-import {Link} from "gatsby";
+import { Link } from "gatsby"
 
 const Footer = styled.div`
   width: 100%;
@@ -101,25 +101,9 @@ const WrapMenu = styled(Menu)`
   }
 `
 
-const FooterNav = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  width: 100%;
-  text-align: center;
-  margin-top: 35px;
-  margin-bottom: 20px;
-  .footer-nav-item {
-    font-size: 14px;
-    font-family: PingFangSC;
-    font-weight: 400;
-    color: rgba(158, 166, 180, 1);
-    cursor: pointer;
-  }
-`
-
 export default class AdventureFooter extends React.PureComponent {
   render() {
-    const homePageUrl="http://www.adventurer.tech";
+    const homePageUrl = "http://www.adventurer.tech"
     return (
       <Footer>
         <Container>
@@ -132,36 +116,26 @@ export default class AdventureFooter extends React.PureComponent {
                 </div>
               </NavLink>
             </Logo>
-            {window.innerWidth > 992 ? (
-              <WrapMenu mode="horizontal">
-                <WrapMenu.Item>
-                  <a href={`${homePageUrl}`}>首页</a>
-                </WrapMenu.Item>
-                <WrapMenu.Item>
-                  <a href={`${homePageUrl}/service`}>服务</a>
-                </WrapMenu.Item>
-                <WrapMenu.Item>
-                  <a href={`${homePageUrl}/cases`}>案例</a>
-                </WrapMenu.Item>
-                <WrapMenu.Item>
-                  <Link to="/">观点</Link>
-                </WrapMenu.Item>
-                <WrapMenu.Item>
-                  <a href={`${homePageUrl}/about`}>关于</a>
-                </WrapMenu.Item>
-                <WrapMenu.Item>
-                  <a href={`${homePageUrl}/join`}>加入</a>
-                </WrapMenu.Item>
-              </WrapMenu>
-            ) : (
-              <FooterNav>
-                <a href={`${homePageUrl}`} className="footer-nav-item">首页</a>
-                <a href={`${homePageUrl}/service`} className="footer-nav-item">服务</a>
-                <a href={`${homePageUrl}/cases`} className="footer-nav-item">案例</a>
-                <Link to="/" className="footer-nav-item">观点</Link>
-                <a href={`${homePageUrl}/about`} className="footer-nav-item">关于</a>
-                <a href={`${homePageUrl}/join`} className="footer-nav-item">加入</a>
-              </FooterNav>
+            <WrapMenu mode="horizontal">
+              <WrapMenu.Item>
+                <a href={`${homePageUrl}`}>首页</a>
+              </WrapMenu.Item>
+              <WrapMenu.Item>
+                <a href={`${homePageUrl}/service`}>服务</a>
+              </WrapMenu.Item>
+              <WrapMenu.Item>
+                <a href={`${homePageUrl}/cases`}>案例</a>
+              </WrapMenu.Item>
+              <WrapMenu.Item>
+                <Link to="/">观点</Link>
+              </WrapMenu.Item>
+              <WrapMenu.Item>
+                <a href={`${homePageUrl}/about`}>关于</a>
+              </WrapMenu.Item>
+              <WrapMenu.Item>
+                <a href={`${homePageUrl}/join`}>加入</a>
+              </WrapMenu.Item>
+            </WrapMenu>
             )}
           </FooterMain>
           <Divider />

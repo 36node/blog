@@ -1,7 +1,7 @@
 import React from "react"
-import { useStaticQuery, graphql } from "gatsby"
-import Img from "gatsby-image"
-import logo from '../../static/logo.png'
+// import { useStaticQuery, graphql } from "gatsby"
+// import Img from "gatsby-image"
+import logo from "../../static/logo.png"
 
 /*
  * This component is built using `gatsby-image` to automatically serve optimized
@@ -15,20 +15,20 @@ import logo from '../../static/logo.png'
  */
 
 const Image = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      file(relativePath: { eq: "logo.png" }) {
-        childImageSharp {
-          fixed(width: 60, height: 30) {
-            ...GatsbyImageSharpFixed
-          }
-        }
-      }
-    }
-  `)
-  
+  // const data = useStaticQuery(graphql`
+  //   query {
+  //     file(relativePath: { eq: "logo.png" }) {
+  //       childImageSharp {
+  //         fixed(width: 60, height: 30) {
+  //           ...GatsbyImageSharpFixed
+  //         }
+  //       }
+  //     }
+  //   }
+  // `)
+
   // return <Img fixed={data.file.childImageSharp.fixed} />
-  return <img src={logo} />
+  return <img src={logo} alt="" />
 }
 
 export default Image

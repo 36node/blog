@@ -113,51 +113,31 @@ const RecommendArticle = ({ otherEdges = [], tagsArray }) => {
       <div className="recommend-area">
         <div className="title">推荐文章</div>
         <div className="recommend-articles">
-          {window.innerWidth > 992 ? (
-            <Row
-              gutter={24}
-              style={{ width: "100%", marginRight: 0, marginLeft: 0 }}
-            >
-              <div>
-                {recommendArray.map(item => {
-                  const {
-                    node: {
-                      id,
-                      frontmatter: { title, path, brief },
-                    },
-                  } = item
-                  return (
-                    <Col span={8} className="cube" key={path}>
-                      <Link to={path} key={path}>
-                        <div className="recommend-article" key={id}>
-                          <div className="recommend-article-title">{title}</div>
-                          <div className="recommend-article-brief">{brief}</div>
-                        </div>
-                      </Link>
-                    </Col>
-                  )
-                })}
-              </div>
-            </Row>
-          ) : (
+          <Row
+            gutter={24}
+            style={{ width: "100%", marginRight: 0, marginLeft: 0 }}
+          >
             <div>
               {recommendArray.map(item => {
                 const {
                   node: {
                     id,
-                    frontmatter: { title, path },
+                    frontmatter: { title, path, brief },
                   },
                 } = item
                 return (
-                  <Link to={path} key={path}>
-                    <div className="recommend-article" key={id}>
-                      <div className="recommend-article-title">{title}</div>
-                    </div>
-                  </Link>
+                  <Col lg={8} md={24} className="cube" key={path}>
+                    <Link to={path} key={path}>
+                      <div className="recommend-article" key={id}>
+                        <div className="recommend-article-title">{title}</div>
+                        <div className="recommend-article-brief">{brief}</div>
+                      </div>
+                    </Link>
+                  </Col>
                 )
               })}
             </div>
-          )}
+          </Row>
         </div>
       </div>
     </RecommendArea>

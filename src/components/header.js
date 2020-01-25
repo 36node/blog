@@ -1,13 +1,11 @@
 import React from "react"
-import { Menu, Icon, Drawer } from "antd"
+import { Menu } from "antd"
 import styled from "styled-components"
-import LogoImg from './logoImage';
-import { NavLink } from "react-router-dom"
+import LogoImg from "./logoImage"
 import { withRouter } from "react-router"
 
 import LargeContainer from "./container-large"
 import { graphql, Link } from "gatsby"
-
 
 const Header = styled.div`
   width: 100%;
@@ -91,11 +89,6 @@ const WrapMenu = styled(Menu)`
 `
 
 class BlogHeader extends React.PureComponent {
-  state = {
-    showDrawer: false,
-    smallScreen: window.innerWidth <= 992,
-  }
-
   componentDidMount = () => {
     window.addEventListener("resize", this.updateDimensions)
   }
@@ -103,34 +96,10 @@ class BlogHeader extends React.PureComponent {
     window.removeEventListener("resize", this.updateDimensions)
   }
 
-  updateDimensions = () => {
-    this.setState({
-      smallScreen: window.innerWidth <= 992,
-    })
-  }
-
-  showDrawer = () => {
-    this.setState({
-      showDrawer: true,
-    })
-  }
-
-  closeDrawer = () => {
-    this.setState({
-      showDrawer: false,
-    })
-  }
-
   renderMenu = mode => {
-    const homePageUrl="http://www.adventurer.tech";
+    const homePageUrl = "http://www.adventurer.tech"
     return (
-      <WrapMenu
-        mode={mode}
-        onClick={() => {
-          this.closeDrawer()
-        }}
-        selectedKeys="/opinion"
-      >
+      <WrapMenu mode={mode} selectedKeys="/opinion">
         <WrapMenu.Item>
           <a href={`${homePageUrl}`}>首页</a>
         </WrapMenu.Item>
@@ -154,7 +123,6 @@ class BlogHeader extends React.PureComponent {
   }
 
   render() {
-    const { showDrawer, smallScreen } = this.state
     return (
       <Header>
         <LargeContainer>
@@ -167,31 +135,7 @@ class BlogHeader extends React.PureComponent {
               </div>
             </Link>
           </Logo>
-          <Icon
-            type="menu"
-            className="menu"
-            onClick={() => {
-              this.showDrawer()
-            }}
-          />
-          {smallScreen ? (
-            <Drawer
-              className="menu-drawer"
-              width={200}
-              bodyStyle={{
-                background: "white",
-                padding: 0,
-              }}
-              placement="right"
-              closable={false}
-              visible={showDrawer}
-              onClose={this.closeDrawer}
-            >
-              {this.renderMenu("inline")}
-            </Drawer>
-          ) : (
-            this.renderMenu("horizontal")
-          )}
+          {this.renderMenu("horizontal")}
         </LargeContainer>
       </Header>
     )
